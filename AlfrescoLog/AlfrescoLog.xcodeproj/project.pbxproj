@@ -1,0 +1,305 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		828FFA8816524B4E009B1E14 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828FFA8716524B4E009B1E14 /* UIKit.framework */; };
+		828FFA8A16524B4E009B1E14 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828FFA8916524B4E009B1E14 /* Foundation.framework */; };
+		828FFA8C16524B4E009B1E14 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828FFA8B16524B4E009B1E14 /* CoreGraphics.framework */; };
+		828FFA9216524B4E009B1E14 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 828FFA9016524B4E009B1E14 /* InfoPlist.strings */; };
+		828FFA9416524B4E009B1E14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 828FFA9316524B4E009B1E14 /* main.m */; };
+		828FFA9816524B4E009B1E14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 828FFA9716524B4E009B1E14 /* AppDelegate.m */; };
+		828FFA9A16524B4E009B1E14 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 828FFA9916524B4E009B1E14 /* Default.png */; };
+		828FFA9C16524B4E009B1E14 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 828FFA9B16524B4E009B1E14 /* Default@2x.png */; };
+		828FFA9E16524B4E009B1E14 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 828FFA9D16524B4E009B1E14 /* Default-568h@2x.png */; };
+		828FFAA116524B4E009B1E14 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828FFAA016524B4E009B1E14 /* ViewController.m */; };
+		828FFAA416524B4E009B1E14 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828FFAA216524B4E009B1E14 /* ViewController.xib */; };
+		828FFABA16524BE5009B1E14 /* AlfrescoLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 828FFAB916524BE5009B1E14 /* AlfrescoLog.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		828FFA8316524B4E009B1E14 /* AlfrescoLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlfrescoLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		828FFA8716524B4E009B1E14 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		828FFA8916524B4E009B1E14 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		828FFA8B16524B4E009B1E14 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		828FFA8F16524B4E009B1E14 /* AlfrescoLog-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AlfrescoLog-Info.plist"; sourceTree = "<group>"; };
+		828FFA9116524B4E009B1E14 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		828FFA9316524B4E009B1E14 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		828FFA9516524B4E009B1E14 /* AlfrescoLog-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AlfrescoLog-Prefix.pch"; sourceTree = "<group>"; };
+		828FFA9616524B4E009B1E14 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		828FFA9716524B4E009B1E14 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		828FFA9916524B4E009B1E14 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		828FFA9B16524B4E009B1E14 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		828FFA9D16524B4E009B1E14 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		828FFA9F16524B4E009B1E14 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		828FFAA016524B4E009B1E14 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		828FFAA316524B4E009B1E14 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		828FFAB816524BE5009B1E14 /* AlfrescoLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfrescoLog.h; sourceTree = "<group>"; };
+		828FFAB916524BE5009B1E14 /* AlfrescoLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfrescoLog.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		828FFA8016524B4D009B1E14 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828FFA8816524B4E009B1E14 /* UIKit.framework in Frameworks */,
+				828FFA8A16524B4E009B1E14 /* Foundation.framework in Frameworks */,
+				828FFA8C16524B4E009B1E14 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		828FFA7816524B4D009B1E14 = {
+			isa = PBXGroup;
+			children = (
+				828FFA8D16524B4E009B1E14 /* AlfrescoLog */,
+				828FFA8616524B4E009B1E14 /* Frameworks */,
+				828FFA8416524B4E009B1E14 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		828FFA8416524B4E009B1E14 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				828FFA8316524B4E009B1E14 /* AlfrescoLog.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		828FFA8616524B4E009B1E14 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				828FFA8716524B4E009B1E14 /* UIKit.framework */,
+				828FFA8916524B4E009B1E14 /* Foundation.framework */,
+				828FFA8B16524B4E009B1E14 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		828FFA8D16524B4E009B1E14 /* AlfrescoLog */ = {
+			isa = PBXGroup;
+			children = (
+				828FFA9616524B4E009B1E14 /* AppDelegate.h */,
+				828FFA9716524B4E009B1E14 /* AppDelegate.m */,
+				828FFA9F16524B4E009B1E14 /* ViewController.h */,
+				828FFAA016524B4E009B1E14 /* ViewController.m */,
+				828FFAB816524BE5009B1E14 /* AlfrescoLog.h */,
+				828FFAB916524BE5009B1E14 /* AlfrescoLog.m */,
+				828FFAA216524B4E009B1E14 /* ViewController.xib */,
+				828FFA8E16524B4E009B1E14 /* Supporting Files */,
+			);
+			path = AlfrescoLog;
+			sourceTree = "<group>";
+		};
+		828FFA8E16524B4E009B1E14 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				828FFA8F16524B4E009B1E14 /* AlfrescoLog-Info.plist */,
+				828FFA9016524B4E009B1E14 /* InfoPlist.strings */,
+				828FFA9316524B4E009B1E14 /* main.m */,
+				828FFA9516524B4E009B1E14 /* AlfrescoLog-Prefix.pch */,
+				828FFA9916524B4E009B1E14 /* Default.png */,
+				828FFA9B16524B4E009B1E14 /* Default@2x.png */,
+				828FFA9D16524B4E009B1E14 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		828FFA8216524B4D009B1E14 /* AlfrescoLog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 828FFAA716524B4E009B1E14 /* Build configuration list for PBXNativeTarget "AlfrescoLog" */;
+			buildPhases = (
+				828FFA7F16524B4D009B1E14 /* Sources */,
+				828FFA8016524B4D009B1E14 /* Frameworks */,
+				828FFA8116524B4D009B1E14 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AlfrescoLog;
+			productName = AlfrescoLog;
+			productReference = 828FFA8316524B4E009B1E14 /* AlfrescoLog.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		828FFA7A16524B4D009B1E14 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Gavin Cornwell";
+			};
+			buildConfigurationList = 828FFA7D16524B4D009B1E14 /* Build configuration list for PBXProject "AlfrescoLog" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 828FFA7816524B4D009B1E14;
+			productRefGroup = 828FFA8416524B4E009B1E14 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				828FFA8216524B4D009B1E14 /* AlfrescoLog */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		828FFA8116524B4D009B1E14 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828FFA9216524B4E009B1E14 /* InfoPlist.strings in Resources */,
+				828FFA9A16524B4E009B1E14 /* Default.png in Resources */,
+				828FFA9C16524B4E009B1E14 /* Default@2x.png in Resources */,
+				828FFA9E16524B4E009B1E14 /* Default-568h@2x.png in Resources */,
+				828FFAA416524B4E009B1E14 /* ViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		828FFA7F16524B4D009B1E14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828FFA9416524B4E009B1E14 /* main.m in Sources */,
+				828FFA9816524B4E009B1E14 /* AppDelegate.m in Sources */,
+				828FFAA116524B4E009B1E14 /* ViewController.m in Sources */,
+				828FFABA16524BE5009B1E14 /* AlfrescoLog.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		828FFA9016524B4E009B1E14 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				828FFA9116524B4E009B1E14 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		828FFAA216524B4E009B1E14 /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				828FFAA316524B4E009B1E14 /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		828FFAA516524B4E009B1E14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		828FFAA616524B4E009B1E14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		828FFAA816524B4E009B1E14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AlfrescoLog/AlfrescoLog-Prefix.pch";
+				INFOPLIST_FILE = "AlfrescoLog/AlfrescoLog-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		828FFAA916524B4E009B1E14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AlfrescoLog/AlfrescoLog-Prefix.pch";
+				INFOPLIST_FILE = "AlfrescoLog/AlfrescoLog-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		828FFA7D16524B4D009B1E14 /* Build configuration list for PBXProject "AlfrescoLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				828FFAA516524B4E009B1E14 /* Debug */,
+				828FFAA616524B4E009B1E14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		828FFAA716524B4E009B1E14 /* Build configuration list for PBXNativeTarget "AlfrescoLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				828FFAA816524B4E009B1E14 /* Debug */,
+				828FFAA916524B4E009B1E14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 828FFA7A16524B4D009B1E14 /* Project object */;
+}
