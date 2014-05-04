@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		581E0131190AF4A2000257DE /* TestFormDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 581E0130190AF4A2000257DE /* TestFormDelegate.m */; };
+		581E0134190AFF43000257DE /* JSONFormDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 581E0133190AFF43000257DE /* JSONFormDelegate.m */; };
+		58293CDB19090ABE00B7D9C5 /* FormField.m in Sources */ = {isa = PBXBuildFile; fileRef = 58293CDA19090ABE00B7D9C5 /* FormField.m */; };
+		58293CDE19090D4E00B7D9C5 /* FormFieldGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 58293CDD19090D4E00B7D9C5 /* FormFieldGroup.m */; };
+		5853EDBA1916301E00DE3A5C /* DictionaryFormDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5853EDB91916301E00DE3A5C /* DictionaryFormDelegate.m */; };
 		58604DB318F5D107002B09A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58604DB218F5D107002B09A5 /* Foundation.framework */; };
 		58604DB518F5D107002B09A5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58604DB418F5D107002B09A5 /* CoreGraphics.framework */; };
 		58604DB718F5D107002B09A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58604DB618F5D107002B09A5 /* UIKit.framework */; };
@@ -37,6 +42,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		581E012F190AF4A2000257DE /* TestFormDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFormDelegate.h; sourceTree = "<group>"; };
+		581E0130190AF4A2000257DE /* TestFormDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFormDelegate.m; sourceTree = "<group>"; };
+		581E0132190AFF43000257DE /* JSONFormDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFormDelegate.h; sourceTree = "<group>"; };
+		581E0133190AFF43000257DE /* JSONFormDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFormDelegate.m; sourceTree = "<group>"; };
+		58293CD81909077D00B7D9C5 /* FormDataSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormDataSourceDelegate.h; sourceTree = "<group>"; };
+		58293CD919090ABE00B7D9C5 /* FormField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormField.h; sourceTree = "<group>"; };
+		58293CDA19090ABE00B7D9C5 /* FormField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormField.m; sourceTree = "<group>"; };
+		58293CDC19090D4E00B7D9C5 /* FormFieldGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormFieldGroup.h; sourceTree = "<group>"; };
+		58293CDD19090D4E00B7D9C5 /* FormFieldGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormFieldGroup.m; sourceTree = "<group>"; };
+		58293CDF19090DDA00B7D9C5 /* FormPersistenceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormPersistenceDelegate.h; sourceTree = "<group>"; };
+		5853EDB81916301E00DE3A5C /* DictionaryFormDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryFormDelegate.h; sourceTree = "<group>"; };
+		5853EDB91916301E00DE3A5C /* DictionaryFormDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictionaryFormDelegate.m; sourceTree = "<group>"; };
 		58604DAF18F5D107002B09A5 /* DynamicFormPrototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicFormPrototype.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58604DB218F5D107002B09A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		58604DB418F5D107002B09A5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -132,6 +149,18 @@
 				58604DF618F5E18C002B09A5 /* BooleanFormField.xib */,
 				58604DF818F5E1BF002B09A5 /* BooleanFormField.h */,
 				58604DF918F5E1BF002B09A5 /* BooleanFormField.m */,
+				58293CD81909077D00B7D9C5 /* FormDataSourceDelegate.h */,
+				58293CD919090ABE00B7D9C5 /* FormField.h */,
+				58293CDA19090ABE00B7D9C5 /* FormField.m */,
+				58293CDC19090D4E00B7D9C5 /* FormFieldGroup.h */,
+				58293CDD19090D4E00B7D9C5 /* FormFieldGroup.m */,
+				58293CDF19090DDA00B7D9C5 /* FormPersistenceDelegate.h */,
+				581E012F190AF4A2000257DE /* TestFormDelegate.h */,
+				581E0130190AF4A2000257DE /* TestFormDelegate.m */,
+				581E0132190AFF43000257DE /* JSONFormDelegate.h */,
+				581E0133190AFF43000257DE /* JSONFormDelegate.m */,
+				5853EDB81916301E00DE3A5C /* DictionaryFormDelegate.h */,
+				5853EDB91916301E00DE3A5C /* DictionaryFormDelegate.m */,
 			);
 			path = DynamicFormPrototype;
 			sourceTree = "<group>";
@@ -264,9 +293,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				58604DC318F5D107002B09A5 /* AppDelegate.m in Sources */,
+				58293CDE19090D4E00B7D9C5 /* FormFieldGroup.m in Sources */,
+				581E0134190AFF43000257DE /* JSONFormDelegate.m in Sources */,
+				581E0131190AF4A2000257DE /* TestFormDelegate.m in Sources */,
 				58604DFA18F5E1BF002B09A5 /* BooleanFormField.m in Sources */,
 				58604DEF18F5D1D7002B09A5 /* DynamicFormViewController.m in Sources */,
 				58604DBF18F5D107002B09A5 /* main.m in Sources */,
+				58293CDB19090ABE00B7D9C5 /* FormField.m in Sources */,
+				5853EDBA1916301E00DE3A5C /* DictionaryFormDelegate.m in Sources */,
 				58604DF518F5DE6D002B09A5 /* TextFieldCellTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,6 +500,7 @@
 				58604DE618F5D107002B09A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		58604DE718F5D107002B09A5 /* Build configuration list for PBXNativeTarget "DynamicFormPrototypeTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +509,7 @@
 				58604DE918F5D107002B09A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

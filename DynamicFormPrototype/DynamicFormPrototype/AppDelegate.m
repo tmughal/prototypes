@@ -8,6 +8,11 @@
 
 #import "AppDelegate.h"
 #import "DynamicFormViewController.h"
+#import "TestFormDelegate.h"
+#import "JSONFormDelegate.h"
+#import "DictionaryFormDelegate.h"
+
+NSString * const kJSON = @"[{\"name\": \"firstname\",\"type\": \"string\",\"title\": \"First Name\",\"default\": \"\",\"value\": \"Gavin\",\"group\": \"Profile\"},{\"name\": \"lastname\",\"type\": \"string\",\"title\": \"Last Name\",\"default\": \"\",\"value\": \"Cornwell\",\"group\": \"Profile\"},{\"name\": \"married\",\"type\": \"boolean\",\"title\": \"Married\",\"default\": \"1\",\"value\": \"1\",\"group\": \"Profile\"}]";
 
 @implementation AppDelegate
 
@@ -15,9 +20,18 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    NSDictionary *fieldData = @{@"First Name":@"", @"Last Name":@"Cornwell", @"Married": @NO};
+    // hardcoded example
+//    TestFormDelegate *formDelegate = [TestFormDelegate new];
     
-    DynamicFormViewController *formController = [[DynamicFormViewController alloc] initWithDictionary:fieldData];
+    // JSON example
+    JSONFormDelegate *formDelegate = [[JSONFormDelegate alloc] initWithJSONString:kJSON];
+    
+    // dictionary example
+//    NSDictionary *formData = @{};
+//    DictionaryFormDelegate *formDelegate = [[DictionaryFormDelegate alloc] initWithDictionary:formData];
+    
+    DynamicFormViewController *formController = [[DynamicFormViewController alloc] initWithFormDataSource:formDelegate
+                                                                                      persistenceDelegate:formDelegate];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:formController];
     self.window.rootViewController = nc;
     

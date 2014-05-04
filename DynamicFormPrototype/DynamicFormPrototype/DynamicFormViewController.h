@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FormDataSourceDelegate.h"
+#import "FormPersistenceDelegate.h"
 
 @interface DynamicFormViewController : UITableViewController
 
-- (instancetype)initWithDictionary:(NSDictionary *)fieldData;
+- (instancetype)initWithFormDataSource:(id<FormDataSourceDelegate>)dataSource
+                   persistenceDelegate:(id<FormPersistenceDelegate>)persistenceDelegate;
 
 @end

@@ -9,23 +9,28 @@
 #import "DynamicFormViewController.h"
 #import "TextFieldCellTableViewCell.h"
 #import "BooleanFormField.h"
+#import "FormField.h"
+#import "FormFieldGroup.h"
 
 @interface DynamicFormViewController ()
-@property (nonatomic, strong) NSDictionary *fieldData;
-@property (nonatomic, strong) NSMutableArray *fieldValues;
+@property (nonatomic, strong) id<FormDataSourceDelegate> dataSourceDelegate;
+@property (nonatomic, strong) id<FormPersistenceDelegate> persistenceDelegate;
+@property (nonatomic, strong) NSArray *groups;
 @property (nonatomic, strong) NSMutableArray *fields;
 @end
 
 @implementation DynamicFormViewController
 
-- (instancetype)initWithDictionary:(NSDictionary *)fieldData
+- (instancetype)initWithFormDataSource:(id<FormDataSourceDelegate>)dataSource
+                   persistenceDelegate:(id<FormPersistenceDelegate>)persistenceDelegate
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self)
     {
-        self.fieldData = fieldData;
+        self.dataSourceDelegate = dataSource;
+        self.persistenceDelegate = persistenceDelegate;
+        self.groups = [dataSource groupsForForm];
         self.fields = [NSMutableArray array];
-        self.fieldValues = [NSMutableArray array];
     }
     return self;
 }
@@ -38,40 +43,6 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
                                                                                            target:self
                                                                                            action:@selector(saveButtonClicked:)];
-    
-    for (NSString *field in [self.fieldData allKeys])
-    {
-        id fieldValue = self.fieldData[field];
-        if ([fieldValue isKindOfClass:[NSString class]])
-        {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TextFieldCell" owner:self options:nil];
-            TextFieldCellTableViewCell *cell = [nib lastObject];
-            
-            cell.label.text = field;
-            cell.textField.text = fieldValue;
-            cell.textField.tag = self.fields.count;
-            [cell.textField addTarget:self action:@selector(textFieldEdited:)
-                       forControlEvents:UIControlEventEditingDidEnd];
-            
-            [self.fields addObject:cell];
-            [self.fieldValues addObject:fieldValue];
-        }
-        else if ([fieldValue isKindOfClass:[NSNumber class]])
-        {
-            BOOL on = [fieldValue boolValue];
-            
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"BooleanFormField" owner:self options:nil];
-            BooleanFormField *cell = [nib lastObject];
-            
-            cell.label.text = field;
-            cell.switchControl.on = on;
-            cell.switchControl.tag = self.fields.count;
-            [cell.switchControl addTarget:self action:@selector(booleanFieldEdited:) forControlEvents:UIControlEventValueChanged];
-            
-            [self.fields addObject:cell];
-            [self.fieldValues addObject:[NSNumber numberWithBool:on]];
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,51 +55,85 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    // Return the number of sections, will equal the number of groups
+    return self.groups.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return self.fields.count;
+    // Return the number of rows in the section, will be the number of fields in the group.
+    FormFieldGroup *group = self.groups[section];
+    return group.fieldNames.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    FormFieldGroup *group = self.groups[section];
+    return group.label;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.fields[indexPath.row];
+    // create the appropriate kind of cell for the field
+    FormFieldGroup *group = self.groups[indexPath.section];
+    FormField *field = [self.dataSourceDelegate fieldWithName:group.fieldNames[indexPath.row]];
+    
+    if ([field.type isEqualToString:@"string"])
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TextFieldCell" owner:self options:nil];
+        TextFieldCellTableViewCell *cell = [nib lastObject];
+        
+        cell.label.text = field.label;
+        cell.textField.text = field.originalValue;
+        cell.textField.tag = self.fields.count;
+        [cell.textField addTarget:self action:@selector(textFieldEdited:) forControlEvents:UIControlEventEditingDidEnd];
+        
+        [self.fields addObject:field];
+        return cell;
+    }
+    else if ([field.type isEqualToString:@"boolean"])
+    {
+        BOOL on = [field.originalValue boolValue];
+        
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"BooleanFormField" owner:self options:nil];
+        BooleanFormField *cell = [nib lastObject];
+        
+        cell.label.text = field.label;
+        cell.switchControl.on = on;
+        cell.switchControl.tag = self.fields.count;
+        [cell.switchControl addTarget:self action:@selector(booleanFieldEdited:) forControlEvents:UIControlEventValueChanged];
+        
+        [self.fields addObject:field];
+        return cell;
+    }
+    
+    // TODO: handle the nil case above by throwing exception with meaningful message
+    return nil;
 }
 
 #pragma mark - Event handlers
 
 - (void)saveButtonClicked:(id)sender
 {
-    NSLog(@"Save button clicked, currrent values");
-    
-    for (int x = 0; x < self.fieldValues.count; x++)
-    {
-        NSLog(@"%d = %@", x, self.fieldValues[x]);
-    }
+    [self.persistenceDelegate didEndEditingOfFormFields:self.fields];
 }
 
 - (void)textFieldEdited:(id)sender
 {
-    NSLog(@"text field edited");
-    
     UITextField *tf = (UITextField *)sender;
-    NSLog(@"field tag %d changed to %@", tf.tag, tf.text);
+    FormField *field = self.fields[tf.tag];
+    field.value = tf.text;
     
-    self.fieldValues[tf.tag] = tf.text;
+    NSLog(@"text field edited, tag %d changed to %@", tf.tag, tf.text);
 }
 
 - (void)booleanFieldEdited:(id)sender
 {
-    NSLog(@"boolean field edited");
-    
     UISwitch *s = (UISwitch *)sender;
-    NSLog(@"field tag %d change to %hhd", s.tag, s.on);
+    FormField *field = self.fields[s.tag];
+    field.value = [NSNumber numberWithBool:s.on];
     
-    self.fieldValues[s.tag] = [NSNumber numberWithBool:s.on];
+    NSLog(@"boolean field edited, tag %d change to %hhd", s.tag, s.on);
 }
 
 @end
