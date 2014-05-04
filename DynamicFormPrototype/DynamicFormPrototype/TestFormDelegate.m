@@ -43,6 +43,8 @@
         field.name = @"lastname";
         field.label = @"Last Name";
         field.type = @"string";
+        field.originalValue = @"Cornwell";
+        field.value = @"Cornwell";
     }
     else if ([fieldName isEqualToString:@"married"])
     {
