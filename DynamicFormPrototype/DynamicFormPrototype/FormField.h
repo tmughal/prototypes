@@ -17,6 +17,7 @@
 @property (nonatomic, strong) id value;
 @property (nonatomic, strong) id defaultValue;
 @property (nonatomic, assign) BOOL required;
+@property (nonatomic, assign) BOOL secret;
 @property (nonatomic, strong) NSArray *constraints; // TODO: create a FormFieldConstraint class
 
 @end

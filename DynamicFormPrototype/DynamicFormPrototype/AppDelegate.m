@@ -21,14 +21,14 @@ NSString * const kJSON = @"[{\"name\": \"firstname\",\"type\": \"string\",\"titl
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // hardcoded example
-//    TestFormDelegate *formDelegate = [TestFormDelegate new];
+    TestFormDelegate *formDelegate = [TestFormDelegate new];
     
     // JSON example
 //    JSONFormDelegate *formDelegate = [[JSONFormDelegate alloc] initWithJSONString:kJSON];
     
     // dictionary example
-    NSDictionary *formData = @{@"First Name": @"Gavin", @"Middle Name": @"Paul", @"Last Name": @"Cornwell", @"Married": [NSNumber numberWithBool:YES]};
-    DictionaryFormDelegate *formDelegate = [[DictionaryFormDelegate alloc] initWithDictionary:formData];
+//    NSDictionary *formData = @{@"First Name": @"Gavin", @"Middle Name": @"Paul", @"Last Name": @"Cornwell", @"Married": [NSNumber numberWithBool:YES]};
+//    DictionaryFormDelegate *formDelegate = [[DictionaryFormDelegate alloc] initWithDictionary:formData];
     
     DynamicFormViewController *formController = [[DynamicFormViewController alloc] initWithFormDataSource:formDelegate
                                                                                       persistenceDelegate:formDelegate];

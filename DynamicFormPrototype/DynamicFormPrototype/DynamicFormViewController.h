@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "FormDataSourceDelegate.h"
 #import "FormPersistenceDelegate.h"
+#import "DatePickerViewController.h"
 
-@interface DynamicFormViewController : UITableViewController
+@interface DynamicFormViewController : UITableViewController <DatePickerDelegate>
 
 - (instancetype)initWithFormDataSource:(id<FormDataSourceDelegate>)dataSource
                    persistenceDelegate:(id<FormPersistenceDelegate>)persistenceDelegate;
