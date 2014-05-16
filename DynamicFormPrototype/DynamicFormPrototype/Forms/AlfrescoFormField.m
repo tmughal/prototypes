@@ -1,0 +1,124 @@
+//
+//  AlfrescoFormField.m
+//  DynamicFormPrototype
+//
+//  Created by Gavin Cornwell on 14/05/2014.
+//  Copyright (c) 2014 Gavin Cornwell. All rights reserved.
+//
+
+#import "AlfrescoFormField.h"
+
+@interface AlfrescoFormField ()
+@property (nonatomic, strong, readwrite) NSString *identifier;
+@property (nonatomic, assign, readwrite) AlfrescoFormFieldType type;
+@property (nonatomic, strong, readwrite) id originalValue;
+@property (nonatomic, strong, readwrite) NSArray *constraints;
+@end
+
+@implementation AlfrescoFormField
+
+- (instancetype)initWithIdentifier:(NSString *)identifier type:(AlfrescoFormFieldType)type value:(id)value label:(NSString *)label
+{
+    self = [super init];
+    if (self)
+    {
+        NSAssert(identifier, @"identifier parameter must be provided.");
+        
+        self.identifier = identifier;
+        self.type = type;
+        self.value = value;
+        self.originalValue = value;
+        self.label = label;
+    }
+    return self;
+}
+
+- (void)addConstraint:(id)constraint
+{
+    // TODO
+}
+
++ (NSString *)stringForFieldType:(AlfrescoFormFieldType)type
+{
+    NSString *typeString = nil;
+    
+    switch (type)
+    {
+        case AlfrescoFormFieldTypeString:
+            typeString = @"string";
+            break;
+        case  AlfrescoFormFieldTypeBoolean:
+            typeString = @"boolean";
+            break;
+        case  AlfrescoFormFieldTypeNumber:
+            typeString = @"number";
+            break;
+        case  AlfrescoFormFieldTypeDate:
+            typeString = @"date";
+            break;
+        case  AlfrescoFormFieldTypeDateTime:
+            typeString = @"datetime";
+            break;
+        case  AlfrescoFormFieldTypeEmail:
+            typeString = @"email";
+            break;
+        case  AlfrescoFormFieldTypeURL:
+            typeString = @"url";
+            break;
+        case  AlfrescoFormFieldTypeCustom:
+            typeString = @"custom";
+            break;
+        default:
+            NSLog(@"ERROR: Inavlid field type %d", (int)type);
+            break;
+    }
+    
+    return typeString;
+}
+
++ (AlfrescoFormFieldType)enumForTypeString:(NSString *)typeString
+{
+    AlfrescoFormFieldType type;
+    
+    if ([typeString caseInsensitiveCompare:@"string"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeString;
+    }
+    else if ([typeString caseInsensitiveCompare:@"boolean"] == NSOrderedSame ||
+             [typeString caseInsensitiveCompare:@"bool"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeBoolean;
+    }
+    else if ([typeString caseInsensitiveCompare:@"integer"] == NSOrderedSame ||
+             [typeString caseInsensitiveCompare:@"int"] == NSOrderedSame ||
+             [typeString caseInsensitiveCompare:@"double"] == NSOrderedSame ||
+             [typeString caseInsensitiveCompare:@"float"] == NSOrderedSame ||
+             [typeString caseInsensitiveCompare:@"long"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeNumber;
+    }
+    else if ([typeString caseInsensitiveCompare:@"date"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeDate;
+    }
+    else if ([typeString caseInsensitiveCompare:@"datetime"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeDateTime;
+    }
+    else if ([typeString caseInsensitiveCompare:@"email"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeEmail;
+    }
+    else if ([typeString caseInsensitiveCompare:@"url"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeURL;
+    }
+    else if ([typeString caseInsensitiveCompare:@"custom"] == NSOrderedSame)
+    {
+        type = AlfrescoFormFieldTypeCustom;
+    }
+    
+    return type;
+}
+
+@end

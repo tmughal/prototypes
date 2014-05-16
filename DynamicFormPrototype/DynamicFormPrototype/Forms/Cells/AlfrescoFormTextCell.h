@@ -1,5 +1,5 @@
 //
-//  TextFieldCellTableViewCell.h
+//  AlfrescoFormTextCell.h
 //  DynamicFormPrototype
 //
 //  Created by Gavin Cornwell on 09/04/2014.
@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AlfrescoFormCell.h"
 
-@interface TextFieldCellTableViewCell : UITableViewCell
+@interface AlfrescoFormTextCell : AlfrescoFormCell
 
-@property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) IBOutlet UITextField *textField;
 
 @end

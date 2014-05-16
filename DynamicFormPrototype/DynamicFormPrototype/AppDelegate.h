@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AlfrescoFormViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, AlfrescoFormViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

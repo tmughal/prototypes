@@ -7,12 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "DynamicFormViewController.h"
-#import "TestFormDelegate.h"
-#import "JSONFormDelegate.h"
-#import "DictionaryFormDelegate.h"
-
-NSString * const kJSON = @"[{\"name\": \"firstname\",\"type\": \"string\",\"title\": \"First Name\",\"default\": \"\",\"value\": \"Gavin\",\"group\": \"Profile\"},{\"name\": \"lastname\",\"type\": \"string\",\"title\": \"Last Name\",\"default\": \"\",\"value\": \"Cornwell\",\"group\": \"Profile\"},{\"name\": \"married\",\"type\": \"boolean\",\"title\": \"Married\",\"default\": \"1\",\"value\": \"1\",\"group\": \"Profile\"}]";
+#import "ExamplesViewController.h"
 
 @implementation AppDelegate
 
@@ -20,26 +15,15 @@ NSString * const kJSON = @"[{\"name\": \"firstname\",\"type\": \"string\",\"titl
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    // hardcoded example
-    TestFormDelegate *formDelegate = [TestFormDelegate new];
-    
-    // JSON example
-//    JSONFormDelegate *formDelegate = [[JSONFormDelegate alloc] initWithJSONString:kJSON];
-    
-    // dictionary example
-//    NSDictionary *formData = @{@"First Name": @"Gavin", @"Middle Name": @"Paul", @"Last Name": @"Cornwell", @"Married": [NSNumber numberWithBool:YES]};
-//    DictionaryFormDelegate *formDelegate = [[DictionaryFormDelegate alloc] initWithDictionary:formData];
-    
-    DynamicFormViewController *formController = [[DynamicFormViewController alloc] initWithFormDataSource:formDelegate
-                                                                                      persistenceDelegate:formDelegate];
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:formController];
+    ExamplesViewController *examplesViewController = [[ExamplesViewController alloc] initWithStyle:UITableViewStylePlain];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:examplesViewController];
     self.window.rootViewController = nc;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

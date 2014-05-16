@@ -1,5 +1,5 @@
 //
-//  BooleanFormField.h
+//  AlfrescoFormBooleanCell.h
 //  DynamicFormPrototype
 //
 //  Created by Gavin Cornwell on 09/04/2014.
@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AlfrescoFormCell.h"
 
-@interface BooleanFormField : UITableViewCell
+@interface AlfrescoFormBooleanCell : AlfrescoFormCell
 
-@property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) IBOutlet UISwitch *switchControl;
 
 @end
