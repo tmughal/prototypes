@@ -27,7 +27,7 @@
         self.identifier = identifier;
         self.type = type;
         self.value = value;
-        self.originalValue = value;
+        self.originalValue = self.value;
         self.label = label;
     }
     return self;

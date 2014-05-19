@@ -36,6 +36,7 @@
 		5892CB61192617D900C7734A /* JSONEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5892CB60192617D900C7734A /* JSONEntryViewController.m */; };
 		5892CB6A192659F600C7734A /* AlfrescoListOfValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5892CB68192659F600C7734A /* AlfrescoListOfValuesViewController.m */; };
 		5892CB6B192659F600C7734A /* AlfrescoListOfValuesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5892CB69192659F600C7734A /* AlfrescoListOfValuesViewController.xib */; };
+		5892CB711929FECA00C7734A /* PSPDFTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5892CB701929FECA00C7734A /* PSPDFTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,8 @@
 		5892CB67192659F600C7734A /* AlfrescoListOfValuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfrescoListOfValuesViewController.h; sourceTree = "<group>"; };
 		5892CB68192659F600C7734A /* AlfrescoListOfValuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfrescoListOfValuesViewController.m; sourceTree = "<group>"; };
 		5892CB69192659F600C7734A /* AlfrescoListOfValuesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlfrescoListOfValuesViewController.xib; sourceTree = "<group>"; };
+		5892CB6F1929FECA00C7734A /* PSPDFTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFTextView.h; sourceTree = "<group>"; };
+		5892CB701929FECA00C7734A /* PSPDFTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +245,7 @@
 		5892CB55192566F700C7734A /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				5892CB6E1929FECA00C7734A /* PSPDFTextView */,
 				5892CB59192567DF00C7734A /* ExamplesViewController.h */,
 				5892CB5A192567DF00C7734A /* ExamplesViewController.m */,
 				5892CB5F192617D900C7734A /* JSONEntryViewController.h */,
@@ -249,6 +253,15 @@
 				5892CB5D1926172300C7734A /* JSONEntryViewController.xib */,
 			);
 			path = Examples;
+			sourceTree = "<group>";
+		};
+		5892CB6E1929FECA00C7734A /* PSPDFTextView */ = {
+			isa = PBXGroup;
+			children = (
+				5892CB6F1929FECA00C7734A /* PSPDFTextView.h */,
+				5892CB701929FECA00C7734A /* PSPDFTextView.m */,
+			);
+			path = PSPDFTextView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,6 +377,7 @@
 				5892CB1F19237BC900C7734A /* AlfrescoForm.m in Sources */,
 				5892CB3F19238B9200C7734A /* AlfrescoFormViewController.m in Sources */,
 				5892CB451923BFD800C7734A /* AlfrescoFormDateCell.m in Sources */,
+				5892CB711929FECA00C7734A /* PSPDFTextView.m in Sources */,
 				58604DBF18F5D107002B09A5 /* main.m in Sources */,
 				5892CB331923842600C7734A /* AlfrescoFormBooleanCell.m in Sources */,
 			);

@@ -31,7 +31,6 @@ typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) id value;
-@property (nonatomic, strong) id defaultValue;
 @property (nonatomic, assign) BOOL required;
 @property (nonatomic, assign) BOOL secret;
 

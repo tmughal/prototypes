@@ -25,6 +25,14 @@
     self.title = @"Edit JSON";
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
 #pragma mark - Event handlers
 
 - (void)doneButtonClicked:(id)sender
@@ -46,6 +54,31 @@
                                                      otherButtonTitles:nil, nil];
         [failureAlert show];
     }
+}
+
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+-(void)keyboardWasShown:(NSNotification *)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    NSValue* aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
+    CGSize keyboardSize = [aValue CGRectValue].size;
+    
+    CGRect viewFrame = self.textView.frame;
+    
+    viewFrame.size.height -= keyboardSize.height;
+    self.textView.frame = viewFrame;
+}
+
+-(void)keyboardWillBeHidden:(NSNotification *)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    NSValue* aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
+    CGSize keyboardSize = [aValue CGRectValue].size;
+    
+    CGRect viewFrame = self.textView.frame;
+    
+    viewFrame.size.height += keyboardSize.height;
+    self.textView.frame = viewFrame;
 }
 
 #pragma mark - Helper methods

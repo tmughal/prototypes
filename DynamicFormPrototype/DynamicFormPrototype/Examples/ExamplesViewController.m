@@ -127,8 +127,7 @@
     AlfrescoFormField *serviceDocField = [[AlfrescoFormField alloc] initWithIdentifier:@"serviceDocument" type:AlfrescoFormFieldTypeString value:@"/alfresco" label:@"Service Document"];
     serverField.required = YES;
     
-    // TODO: change this to a custom picker, use date field for now to show picker interaction
-    AlfrescoFormField *clientCertField = [[AlfrescoFormField alloc] initWithIdentifier:@"clientCertificate" type:AlfrescoFormFieldTypeDate value:[NSDate date] label:@"Client Certificate"];
+    AlfrescoFormField *clientCertField = [[AlfrescoFormField alloc] initWithIdentifier:@"clientCertificate" type:AlfrescoFormFieldTypeCustom value:nil label:@"Client Certificate"];
     
     // account details group
     AlfrescoFormFieldGroup *accountGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"accountdetails"
@@ -153,12 +152,15 @@
 - (AlfrescoForm *)buildBenchmarkTestForm
 {
     AlfrescoFormField *definitionField = [[AlfrescoFormField alloc] initWithIdentifier:@"definition" type:AlfrescoFormFieldTypeString value:nil label:@"Definition"];
+    definitionField.placeholderText = @"Will be a LOV picker";
     // TODO: Add set of values to pick from
     
     AlfrescoFormField *nameField = [[AlfrescoFormField alloc] initWithIdentifier:@"name" type:AlfrescoFormFieldTypeString value:nil label:@"Name"];
     nameField.required = YES;
+    nameField.placeholderText = @"Test Name";
     
     AlfrescoFormField *descriptionField = [[AlfrescoFormField alloc] initWithIdentifier:@"description" type:AlfrescoFormFieldTypeString value:nil label:@"Description"];
+    descriptionField.placeholderText = @"Test Description";
     
     AlfrescoFormFieldGroup *group = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"default"
                                                                                        fields:@[definitionField, nameField, descriptionField]
@@ -171,26 +173,72 @@
 {
     // TODO: enable reset button on all fields via control parameter
     // TODO: test the placeholder vs. default value behaviour to get desired effect for benchmark app
-    // TODO: add support for email, url, float fields
     // TODO: make use of the field summary property
     
-    // test fields
-    AlfrescoFormField *nameField = [[AlfrescoFormField alloc] initWithIdentifier:@"name" type:AlfrescoFormFieldTypeString value:nil label:@"Name"];
+    // general fields
+    AlfrescoFormField *processUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"processusername" type:AlfrescoFormFieldTypeString value:nil label:@"Process User"];
+    processUsernameField.placeholderText = @"admin";
     
-    // mongo fields
-    AlfrescoFormField *serverField = [[AlfrescoFormField alloc] initWithIdentifier:@"server" type:AlfrescoFormFieldTypeString value:nil label:@"Server"];
-    serverField.placeholderText = @"e.g. localhost";
+    AlfrescoFormField *processPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"processpwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"Process Password"];
+    processPasswordField.secret = YES;
+    processPasswordField.placeholderText = @"*****";
+    
+    AlfrescoFormField *processEmailField = [[AlfrescoFormField alloc] initWithIdentifier:@"processemail" type:AlfrescoFormFieldTypeEmail value:nil label:@"Process Email"];
+    processEmailField.placeholderText = @"bm@alfresco.com";
+    
+    AlfrescoFormField *processCountField = [[AlfrescoFormField alloc] initWithIdentifier:@"processcount" type:AlfrescoFormFieldTypeNumber value:nil label:@"Process Count"];
+    processCountField.placeholderText = @"200";
+    
+    AlfrescoFormField *processDelayField = [[AlfrescoFormField alloc] initWithIdentifier:@"processdelay" type:AlfrescoFormFieldTypeNumber value:nil label:@"Process Delay"];
+    processDelayField.placeholderText = @"10";
+    // TODO: make this a decimal field
+    
+    // mongo DB fields
+    AlfrescoFormField *mongoUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongousername" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.username"];
+    mongoUsernameField.placeholderText = @"mongo";
+    
+    AlfrescoFormField *mongoPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongopwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"mongo.test.password"];
+    mongoPasswordField.placeholderText = @"*****";
+    mongoPasswordField.secret = YES;
+    
+    AlfrescoFormField *mongoDBField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongodb" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.database"];
+    mongoDBField.placeholderText = @"bm20-data";
+    
+    AlfrescoFormField *mongoHostField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongohost" type:AlfrescoFormFieldTypeURL value:nil label:@"mongo.test.host"];
+    mongoHostField.required = YES;
+    mongoHostField.placeholderText = @"http://localhost:27127";
 
+    // http fields
+    AlfrescoFormField *httpTimeoutField = [[AlfrescoFormField alloc] initWithIdentifier:@"httptimeout" type:AlfrescoFormFieldTypeNumber value:nil label:@"http.connection.timeoutMs"];
+    httpTimeoutField.placeholderText = @"10000";
     
-    AlfrescoFormFieldGroup *testGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"testProperties"
-                                                                                fields:@[nameField]
-                                                                                 label:@"Test Settings"];
+    AlfrescoFormField *httpMaxField = [[AlfrescoFormField alloc] initWithIdentifier:@"httpmax" type:AlfrescoFormFieldTypeNumber value:nil label:@"http.connection.max"];
+    httpMaxField.placeholderText = @"${events.thread.count}";
+    
+    // scheduling fields
+    double seconds = [[NSDate date] timeIntervalSince1970] - 86400;
+    NSDate *pastDate = [NSDate dateWithTimeIntervalSince1970:seconds];
+    AlfrescoFormField *startOnField = [[AlfrescoFormField alloc] initWithIdentifier:@"starton" type:AlfrescoFormFieldTypeDate value:pastDate label:@"Start On"];
+    AlfrescoFormField *dueByField = [[AlfrescoFormField alloc] initWithIdentifier:@"dueby" type:AlfrescoFormFieldTypeDateTime value:[NSDate date] label:@"Due By"];
+    
+    // groups
+    AlfrescoFormFieldGroup *generalGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"general"
+                                                                                       fields:@[processUsernameField, processPasswordField, processEmailField, processCountField, processDelayField]
+                                                                                        label:@"General"];
     
     AlfrescoFormFieldGroup *mongoGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"mongoProperties"
-                                                                                    fields:@[serverField]
-                                                                                     label:@"Mongo Settings"];
+                                                                                    fields:@[mongoUsernameField, mongoPasswordField, mongoDBField, mongoHostField]
+                                                                                     label:@"MongoDB Connection"];
     
-    return [[AlfrescoForm alloc] initWithGroups:@[testGroup, mongoGroup] title:@"Run Properties"];
+    AlfrescoFormFieldGroup *httpGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"http"
+                                                                                    fields:@[httpTimeoutField, httpMaxField]
+                                                                                     label:@"Http Connections"];
+    
+    AlfrescoFormFieldGroup *schedulingGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"scheduling"
+                                                                                          fields:@[startOnField, dueByField]
+                                                                                           label:@"Scheduling"];
+    
+    return [[AlfrescoForm alloc] initWithGroups:@[generalGroup, mongoGroup, httpGroup, schedulingGroup] title:@"Edit Properties"];
 }
 
 - (void)formViewController:(AlfrescoFormViewController *)viewController didEndEditingOfForm:(AlfrescoForm *)form
@@ -204,7 +252,12 @@
     
     for (AlfrescoFormField *field in form.fields)
     {
-        if (![field.value isEqual:field.originalValue])
+        if (field.value == nil && field.originalValue == nil)
+        {
+            continue;
+        }
+        
+        if (![[field.value description] isEqualToString:[field.originalValue description]])
         {
             NSLog(@"field %@ was changed", field.identifier);
         }
