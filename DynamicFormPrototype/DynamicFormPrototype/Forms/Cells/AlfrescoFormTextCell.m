@@ -30,10 +30,14 @@
     // setup keyboard type, if necessary
     if (self.field.type == AlfrescoFormFieldTypeNumber)
     {
-        [self.textField setKeyboardType:UIKeyboardTypeNumberPad];
-        
-        // TODO: determine if we should show the decimal number pad
-        // [self.textField setKeyboardType:UIKeyboardTypeDecimalPad];
+        if (self.field.controlParameters[kAlfrescoFormControlParameterAllowDecimals])
+        {
+            [self.textField setKeyboardType:UIKeyboardTypeDecimalPad];
+        }
+        else
+        {
+            [self.textField setKeyboardType:UIKeyboardTypeNumberPad];
+        }
     }
     else if (self.field.type == AlfrescoFormFieldTypeEmail)
     {
@@ -56,6 +60,16 @@
     if (self.field.placeholderText != nil)
     {
         self.textField.placeholder = self.field.placeholderText;
+    }
+    
+    if (self.field.controlParameters[kAlfrescoFormControlParameterAllowReset])
+    {
+        [self.textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+    }
+    
+    if (self.field.controlParameters[kAlfrescoFormControlParameterShowBorder])
+    {
+        [self.textField setBorderStyle:UITextBorderStyleRoundedRect];
     }
     
     // setup event handler

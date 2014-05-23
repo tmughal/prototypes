@@ -9,6 +9,11 @@
 #import "AlfrescoFormField.h"
 #import "AlfrescoFormMandatoryConstraint.h"
 
+NSString * const kAlfrescoFormControlParameterCustomClassName = @"org.alfresco.mobile.form.control.customclassname";
+NSString * const kAlfrescoFormControlParameterAllowReset = @"org.alfresco.mobile.form.control.allowreset";
+NSString * const kAlfrescoFormControlParameterAllowDecimals = @"org.alfresco.mobile.form.control.allowdecimals";
+NSString * const kAlfrescoFormControlParameterShowBorder = @"org.alfresco.mobile.form.control.showborder";
+
 @interface AlfrescoFormField ()
 @property (nonatomic, strong, readwrite) NSString *identifier;
 @property (nonatomic, assign, readwrite) AlfrescoFormFieldType type;

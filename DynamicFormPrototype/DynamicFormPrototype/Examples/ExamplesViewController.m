@@ -178,49 +178,59 @@
 
 - (AlfrescoForm *)buildBenchmarkPropertiesForm
 {
-    // TODO: enable reset button on all fields via control parameter
-    // TODO: test the placeholder vs. default value behaviour to get desired effect for benchmark app
-    // TODO: make use of the field summary property
+    NSDictionary *commonControlParameters = @{kAlfrescoFormControlParameterAllowReset: @YES, kAlfrescoFormControlParameterShowBorder: @YES};
     
     // general fields
-    AlfrescoFormField *processUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"processusername" type:AlfrescoFormFieldTypeString value:nil label:@"Process User"];
+    AlfrescoFormField *processUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"processusername" type:AlfrescoFormFieldTypeString value:@"user" label:@"Process User"];
     processUsernameField.placeholderText = @"admin";
+    processUsernameField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *processPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"processpwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"Process Password"];
     processPasswordField.secret = YES;
     processPasswordField.placeholderText = @"*****";
+    processPasswordField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *processEmailField = [[AlfrescoFormField alloc] initWithIdentifier:@"processemail" type:AlfrescoFormFieldTypeEmail value:nil label:@"Process Email"];
     processEmailField.placeholderText = @"bm@alfresco.com";
+    processEmailField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *processCountField = [[AlfrescoFormField alloc] initWithIdentifier:@"processcount" type:AlfrescoFormFieldTypeNumber value:nil label:@"Process Count"];
     processCountField.placeholderText = @"200";
+    processCountField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *processDelayField = [[AlfrescoFormField alloc] initWithIdentifier:@"processdelay" type:AlfrescoFormFieldTypeNumber value:nil label:@"Process Delay"];
-    processDelayField.placeholderText = @"10";
-    // TODO: make this a decimal field
+    processDelayField.placeholderText = @"0.5";
+    processDelayField.controlParameters = @{kAlfrescoFormControlParameterAllowDecimals: @YES,
+                                            kAlfrescoFormControlParameterAllowReset: @YES,
+                                            kAlfrescoFormControlParameterShowBorder: @YES};
     
     // mongo DB fields
     AlfrescoFormField *mongoUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongousername" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.username"];
     mongoUsernameField.placeholderText = @"mongo";
+    mongoUsernameField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *mongoPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongopwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"mongo.test.password"];
     mongoPasswordField.placeholderText = @"*****";
     mongoPasswordField.secret = YES;
+    mongoPasswordField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *mongoDBField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongodb" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.database"];
     mongoDBField.placeholderText = @"bm20-data";
+    mongoDBField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *mongoHostField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongohost" type:AlfrescoFormFieldTypeURL value:nil label:@"mongo.test.host"];
     [mongoHostField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     mongoHostField.placeholderText = @"http://localhost:27127";
+    mongoHostField.controlParameters = commonControlParameters;
 
     // http fields
     AlfrescoFormField *httpTimeoutField = [[AlfrescoFormField alloc] initWithIdentifier:@"httptimeout" type:AlfrescoFormFieldTypeNumber value:nil label:@"http.connection.timeoutMs"];
     httpTimeoutField.placeholderText = @"10000";
+    httpTimeoutField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *httpMaxField = [[AlfrescoFormField alloc] initWithIdentifier:@"httpmax" type:AlfrescoFormFieldTypeNumber value:nil label:@"http.connection.max"];
     httpMaxField.placeholderText = @"${events.thread.count}";
+    httpMaxField.controlParameters = commonControlParameters;
     
     // scheduling fields
     double seconds = [[NSDate date] timeIntervalSince1970] - 86400;
