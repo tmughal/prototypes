@@ -21,7 +21,7 @@
     
     [super configureCell];
     
-    NSLog(@"configuring date cell (%@)...", self.field.identifier);
+    NSLog(@"Configuring date cell for field %@", self.field.identifier);
     
     NSDate *date = self.field.value;
     if (date != nil)
@@ -37,8 +37,6 @@
 
 - (void)didSelectCellWithNavigationController:(UINavigationController *)navigationController
 {
-    NSLog(@"didSelectCellWithNavigationController for %@", self.field.identifier);
-    
     AlfrescoDatePickerViewController *datePickerVC = [[AlfrescoDatePickerViewController alloc] initWithDate:self.field.value];
     datePickerVC.delegate = self;
     self.navigationController = navigationController;
@@ -54,7 +52,7 @@
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     self.detailTextLabel.text = [dateFormatter stringFromDate:self.field.value];
     
-    NSLog(@"date field (%@) edited, value changed to %@", self.field.identifier, self.field.value);
+    NSLog(@"Date field %@ was edited, value changed to %@", self.field.identifier, self.field.value);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kAlfrescoFormFieldChangedNotification object:self.field];
     

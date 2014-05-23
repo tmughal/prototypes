@@ -22,7 +22,7 @@
     
     [super configureCell];
     
-    NSLog(@"configuring list of values cell (%@)...", self.field.identifier);
+    NSLog(@"Configuring list of values cell for field %@", self.field.identifier);
     
     if (self.field.value != nil)
     {
@@ -35,8 +35,6 @@
 
 - (void)didSelectCellWithNavigationController:(UINavigationController *)navigationController
 {
-    NSLog(@"didSelectCellWithNavigationController for %@", self.field.identifier);
-
     // find the list of values constraint
     AlfrescoFormListOfValuesConstraint *constraint = (AlfrescoFormListOfValuesConstraint *)[self.field constraintWithIdentifier:kAlfrescoFormConstraintListOfValues];
     AlfrescoListOfValuesPickerViewController *listOfValuesVC = [[AlfrescoListOfValuesPickerViewController alloc] initWithListOfValues:constraint.values
@@ -54,7 +52,7 @@
     // update the cell to display new value
     self.detailTextLabel.text = label;
     
-    NSLog(@"list of values field (%@) edited, value changed to %@", self.field.identifier, self.field.value);
+    NSLog(@"List of values field %@ was edited, value changed to %@", self.field.identifier, self.field.value);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kAlfrescoFormFieldChangedNotification object:self.field];
     

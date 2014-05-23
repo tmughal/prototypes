@@ -14,7 +14,7 @@
 {
     [super configureCell];
     
-    NSLog(@"configuring text cell (%@)...", self.field.identifier);
+    NSLog(@"Configuring text cell for field %@", self.field.identifier);
     
     // set text field value
     // TODO: deal with default values
@@ -59,7 +59,7 @@
     }
     
     // setup event handler
-    [self.textField addTarget:self action:@selector(fieldEdited:) forControlEvents:UIControlEventEditingDidEnd];
+    [self.textField addTarget:self action:@selector(fieldEdited:) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)fieldEdited:(id)sender
@@ -73,7 +73,7 @@
         self.field.value = self.textField.text;
     }
     
-    NSLog(@"text field (%@) edited, value changed to %@", self.field.identifier, self.field.value);
+    NSLog(@"Text field %@ was edited, value changed to %@", self.field.identifier, self.field.value);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kAlfrescoFormFieldChangedNotification object:self.field];
 }

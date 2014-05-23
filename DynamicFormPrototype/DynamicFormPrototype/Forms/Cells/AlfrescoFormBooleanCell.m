@@ -14,7 +14,7 @@
 {
     [super configureCell];
     
-    NSLog(@"configuring boolean cell (%@)...", self.field.identifier);
+    NSLog(@"Configuring boolean cell for field %@", self.field.identifier);
     
     BOOL on = [self.field.value boolValue];
     self.switchControl.on = on;
@@ -25,7 +25,7 @@
 {
     self.field.value = [NSNumber numberWithBool:self.switchControl.on];
     
-    NSLog(@"boolean field (%@) edited, value changed to %@", self.field.identifier, self.switchControl.on ? @"YES" :@"NO");
+    NSLog(@"Boolean field %@ was edited, value changed to %@", self.field.identifier, self.switchControl.on ? @"YES" :@"NO");
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kAlfrescoFormFieldChangedNotification object:self.field];
 }
