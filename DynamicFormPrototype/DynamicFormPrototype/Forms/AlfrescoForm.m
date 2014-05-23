@@ -42,24 +42,22 @@
 
 - (BOOL)isValid
 {
-    BOOL valid = YES;
-    
     // iterate round all fields and check their constraints, if they all pass the form is valid.
-
     for (AlfrescoFormField *field in self.fields)
     {
-        // TODO: evaluate all constraints rather than just the required flag
-        
-        if (field.required && field.value == nil)
+        // evaluate all constraints for the field
+        for (AlfrescoFormConstraint *constraint in field.constraints)
         {
-            NSLog(@"field %@ is invalid", field.identifier);
+            NSLog(@"Evaluating %@ constraint for field %@", constraint.identifier, field.identifier);
             
-            valid = NO;
-            break;
+            if (![constraint evaluate:field.value])
+            {
+                return NO;
+            }
         }
     }
     
-    return valid;
+    return YES;
 }
 
 @end

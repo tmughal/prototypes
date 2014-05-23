@@ -8,6 +8,9 @@
 
 #import "ExamplesViewController.h"
 #import "JSONEntryViewController.h"
+#import "AlfrescoListOfValuesPickerViewController.h"
+#import "AlfrescoFormListOfValuesConstraint.h"
+#import "AlfrescoFormMandatoryConstraint.h"
 
 @interface ExamplesViewController ()
 
@@ -101,15 +104,16 @@
     
     // account details fields
     AlfrescoFormField *usernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"username" type:AlfrescoFormFieldTypeString value:nil label:@"Username"];
-    usernameField.required = YES;
+    [usernameField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     usernameField.placeholderText = requiredString;
     
     AlfrescoFormField *passwordField = [[AlfrescoFormField alloc] initWithIdentifier:@"password" type:AlfrescoFormFieldTypeString value:nil label:@"Password"];
+    [passwordField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     passwordField.secret = YES;
     passwordField.placeholderText = requiredString;
     
     AlfrescoFormField *serverField = [[AlfrescoFormField alloc] initWithIdentifier:@"server" type:AlfrescoFormFieldTypeString value:nil label:@"Server Address"];
-    serverField.required = YES;
+    [serverField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     serverField.placeholderText = requiredString;
     
     AlfrescoFormField *descriptionField = [[AlfrescoFormField alloc] initWithIdentifier:@"description" type:AlfrescoFormFieldTypeString value:nil label:@"Description"];
@@ -122,12 +126,12 @@
     
     // advanced fields
     AlfrescoFormField *portField = [[AlfrescoFormField alloc] initWithIdentifier:@"port" type:AlfrescoFormFieldTypeNumber value:@443 label:@"Port"];
-    portField.required = YES;
+    [portField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     
     AlfrescoFormField *serviceDocField = [[AlfrescoFormField alloc] initWithIdentifier:@"serviceDocument" type:AlfrescoFormFieldTypeString value:@"/alfresco" label:@"Service Document"];
-    serverField.required = YES;
+    [serverField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     
-    AlfrescoFormField *clientCertField = [[AlfrescoFormField alloc] initWithIdentifier:@"clientCertificate" type:AlfrescoFormFieldTypeCustom value:nil label:@"Client Certificate"];
+    AlfrescoFormField *clientCertField = [[AlfrescoFormField alloc] initWithIdentifier:@"clientCertificate" type:AlfrescoFormFieldTypeCustom value:@"Custom Field" label:@"Client Certificate"];
     
     // account details group
     AlfrescoFormFieldGroup *accountGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"accountdetails"
@@ -151,12 +155,15 @@
 
 - (AlfrescoForm *)buildBenchmarkTestForm
 {
-    AlfrescoFormField *definitionField = [[AlfrescoFormField alloc] initWithIdentifier:@"definition" type:AlfrescoFormFieldTypeString value:nil label:@"Definition"];
-    definitionField.placeholderText = @"Will be a LOV picker";
-    // TODO: Add set of values to pick from
+    AlfrescoFormField *definitionField = [[AlfrescoFormField alloc] initWithIdentifier:@"testdefinition" type:AlfrescoFormFieldTypeString value:nil label:@"Definition"];
+    NSArray *values = @[@"123", @"456", @"789"];
+    NSArray *labels = @[@"Sample Test Definition", @"Share Test Definition", @"Cloud Test Definition"];
+    AlfrescoFormListOfValuesConstraint *constraint = [[AlfrescoFormListOfValuesConstraint alloc] initWithValues:values labels:labels];
+    [definitionField addConstraint:constraint];
+    [definitionField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     
     AlfrescoFormField *nameField = [[AlfrescoFormField alloc] initWithIdentifier:@"name" type:AlfrescoFormFieldTypeString value:nil label:@"Name"];
-    nameField.required = YES;
+    [nameField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     nameField.placeholderText = @"Test Name";
     
     AlfrescoFormField *descriptionField = [[AlfrescoFormField alloc] initWithIdentifier:@"description" type:AlfrescoFormFieldTypeString value:nil label:@"Description"];
@@ -205,7 +212,7 @@
     mongoDBField.placeholderText = @"bm20-data";
     
     AlfrescoFormField *mongoHostField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongohost" type:AlfrescoFormFieldTypeURL value:nil label:@"mongo.test.host"];
-    mongoHostField.required = YES;
+    [mongoHostField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     mongoHostField.placeholderText = @"http://localhost:27127";
 
     // http fields

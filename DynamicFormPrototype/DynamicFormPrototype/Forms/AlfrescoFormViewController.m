@@ -10,6 +10,8 @@
 #import "AlfrescoFormFieldGroup.h"
 #import "AlfrescoFormCell.h"
 #import "AlfrescoFormDateCell.h"
+#import "AlfrescoFormListOfValuesCell.h"
+#import "AlfrescoFormListOfValuesConstraint.h"
 
 @interface AlfrescoFormViewController ()
 @property (nonatomic, strong, readwrite) AlfrescoForm *form;
@@ -69,8 +71,16 @@
             if (field.type == AlfrescoFormFieldTypeString || field.type == AlfrescoFormFieldTypeNumber ||
                 field.type == AlfrescoFormFieldTypeEmail || field.type == AlfrescoFormFieldTypeURL)
             {
-                NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlfrescoFormTextCell" owner:self options:nil];
-                formCell = [nib lastObject];
+                AlfrescoFormConstraint *constraint = [field constraintWithIdentifier:kAlfrescoFormConstraintListOfValues];
+                if (constraint != nil)
+                {
+                    formCell = [[AlfrescoFormListOfValuesCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                }
+                else
+                {
+                    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlfrescoFormTextCell" owner:self options:nil];
+                    formCell = [nib lastObject];
+                }
             }
             else if (field.type == AlfrescoFormFieldTypeBoolean)
             {

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AlfrescoFormConstraint.h"
 
 typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
 {
@@ -26,17 +27,18 @@ typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
 @property (nonatomic, assign, readonly) AlfrescoFormFieldType type;
 @property (nonatomic, strong, readonly) id originalValue;
 @property (nonatomic, strong, readonly) NSArray *constraints;
+@property (nonatomic, assign, readonly, getter = isRequired) BOOL required;
 
 @property (nonatomic, strong) NSString *label;
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) id value;
-@property (nonatomic, assign) BOOL required;
-@property (nonatomic, assign) BOOL secret;
+@property (nonatomic, assign, getter = isSecret) BOOL secret;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier type:(AlfrescoFormFieldType)type value:(id)value label:(NSString *)label;
 
-- (void)addConstraint:(id)constraint;
+- (void)addConstraint:(AlfrescoFormConstraint *)constraint;
+- (AlfrescoFormConstraint *)constraintWithIdentifier:(NSString *)identifier;
 
 + (NSString *)stringForFieldType:(AlfrescoFormFieldType)type;
 + (AlfrescoFormFieldType)enumForTypeString:(NSString *)typeString;

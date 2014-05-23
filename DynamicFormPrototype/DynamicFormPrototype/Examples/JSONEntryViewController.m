@@ -8,6 +8,8 @@
 
 #import "JSONEntryViewController.h"
 #import "AlfrescoFormViewController.h"
+#import "AlfrescoFormMandatoryConstraint.h"
+#import "AlfrescoFormListOfValuesConstraint.h"
 
 @interface JSONEntryViewController ()
 
@@ -102,26 +104,49 @@
         
         for (NSDictionary *jsonProperty in jsonFormProperties)
         {
-            NSString *identifier = jsonProperty[@"id"];
-            NSString *name = jsonProperty[@"name"];
-            NSString *type = jsonProperty[@"type"];
-            id value = jsonProperty[@"value"];
-//            BOOL readable = [jsonProperty[@"readable"] boolValue];
-//            BOOL writable = [jsonProperty[@"writable"] boolValue];
-            BOOL required = [jsonProperty[@"required"] boolValue];
-//            NSArray *listOfValues = jsonProperty[@"enumValues"];
+            BOOL writable = [jsonProperty[@"writable"] boolValue];
             
-            if ([value isKindOfClass:[NSNull class]])
+            if (writable)
             {
-                value = nil;
+                NSString *identifier = jsonProperty[@"id"];
+                NSString *name = jsonProperty[@"name"];
+                NSString *type = jsonProperty[@"type"];
+                id value = jsonProperty[@"value"];
+                
+                BOOL required = [jsonProperty[@"required"] boolValue];
+                
+                if ([value isKindOfClass:[NSNull class]])
+                {
+                    value = nil;
+                }
+                
+                AlfrescoFormField *field = [[AlfrescoFormField alloc] initWithIdentifier:identifier
+                                                                                    type:[AlfrescoFormField enumForTypeString:type]
+                                                                                   value:value label:name];
+                if (required)
+                {
+                    [field addConstraint:[AlfrescoFormMandatoryConstraint new]];
+                }
+                
+                NSArray *listOfValues = jsonProperty[@"enumValues"];
+                if (listOfValues != nil)
+                {
+                    NSMutableArray *values = [NSMutableArray array];
+                    NSMutableArray *labels = [NSMutableArray array];
+                    
+                    for (NSDictionary *choice in listOfValues)
+                    {
+                        NSString *value = choice[@"id"];
+                        NSString *label = choice[@"name"];
+                        [values addObject:value];
+                        [labels addObject:label];
+                    }
+                    
+                    [field addConstraint:[[AlfrescoFormListOfValuesConstraint alloc] initWithValues:values labels:labels]];
+                }
+                
+                [fields addObject:field];
             }
-            
-            AlfrescoFormField *field = [[AlfrescoFormField alloc] initWithIdentifier:identifier
-                                                                                type:[AlfrescoFormField enumForTypeString:type]
-                                                                               value:value label:name];
-            field.required = required;
-            
-            [fields addObject:field];
         }
         
         AlfrescoFormFieldGroup *group = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"default"

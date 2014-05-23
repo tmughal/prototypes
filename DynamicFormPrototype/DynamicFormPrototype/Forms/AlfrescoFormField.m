@@ -7,6 +7,7 @@
 //
 
 #import "AlfrescoFormField.h"
+#import "AlfrescoFormMandatoryConstraint.h"
 
 @interface AlfrescoFormField ()
 @property (nonatomic, strong, readwrite) NSString *identifier;
@@ -33,9 +34,38 @@
     return self;
 }
 
-- (void)addConstraint:(id)constraint
+- (BOOL)isRequired
 {
-    // TODO
+    AlfrescoFormConstraint *mandatory = [self constraintWithIdentifier:kAlfrescoFormConstraintMandatory];
+    return (mandatory != nil);
+}
+
+- (void)addConstraint:(AlfrescoFormConstraint *)constraint;
+{
+    if (constraint != nil)
+    {
+        if (self.constraints == nil)
+        {
+            self.constraints = [NSArray arrayWithObject:constraint];
+        }
+        else
+        {
+            self.constraints = [self.constraints arrayByAddingObject:constraint];
+        }
+    }
+}
+
+- (AlfrescoFormConstraint *)constraintWithIdentifier:(NSString *)identifier
+{
+    for (AlfrescoFormConstraint *constraint in self.constraints)
+    {
+        if ([constraint.identifier isEqualToString:identifier])
+        {
+            return constraint;
+        }
+    }
+    
+    return nil;
 }
 
 + (NSString *)stringForFieldType:(AlfrescoFormFieldType)type

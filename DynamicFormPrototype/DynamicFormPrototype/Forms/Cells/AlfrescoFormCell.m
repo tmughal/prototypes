@@ -21,11 +21,11 @@ NSString * const kAlfrescoFormFieldChangedNotification = @"AlfrescoFormFieldChan
 
 - (void)configureCell
 {
-    // investigate making this an internal protected method, category?
+    // TODO: investigate making this an internal protected method, category?
     
     if (self.field.required)
     {
-        self.label.text = [NSString stringWithFormat:@"%@*", self.field.label];
+        self.label.text = [NSString stringWithFormat:@"%@ *", self.field.label];
     }
     else
     {
@@ -38,7 +38,7 @@ NSString * const kAlfrescoFormFieldChangedNotification = @"AlfrescoFormFieldChan
 
 - (void)didSelectCellWithNavigationController:(UINavigationController *)navigationController
 {
-    // nothing by default, selectable cell subclasses will override this
+    // selectable cell subclasses will override this
 }
 
 @end
