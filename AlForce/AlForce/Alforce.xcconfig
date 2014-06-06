@@ -1,0 +1,9 @@
+//
+//  Alforce.xcconfig
+//  Alforce
+//
+//  Created by Gavin Cornwell on 05/06/2014.
+//  Copyright (c) 2014 Alfresco. All rights reserved.
+//
+
+OTHER_CFLAGS=-DALFRESCO_CLOUD_OAUTH_KEY="@\"${ALFRESCO_CLOUD_OAUTH_KEY}\"" -DALFRESCO_CLOUD_OAUTH_SECRET="@\"${ALFRESCO_CLOUD_OAUTH_SECRET}\""
