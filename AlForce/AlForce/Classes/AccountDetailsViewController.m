@@ -234,7 +234,6 @@
             if (![self.account[@"Website"] isKindOfClass:[NSNull class]])
             {
                 cell.detailTextLabel.text = self.account[@"Website"];
-                cell.detailTextLabel.t
             }
         }
     }
