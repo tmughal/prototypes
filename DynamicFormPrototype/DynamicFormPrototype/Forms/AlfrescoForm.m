@@ -60,4 +60,19 @@
     return YES;
 }
 
+- (AlfrescoFormField *)fieldWithIdentifier:(NSString *)identifier
+{
+    // TODO: store fields in a dictionary to avoid loop below.
+    
+    for (AlfrescoFormField *field in self.fields)
+    {
+        if ([field.identifier isEqualToString:identifier])
+        {
+            return field;
+        }
+    }
+    
+    return nil;
+}
+
 @end

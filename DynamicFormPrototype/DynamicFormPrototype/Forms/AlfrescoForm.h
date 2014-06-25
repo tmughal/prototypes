@@ -37,4 +37,9 @@
  */
 - (instancetype)initWithGroups:(NSArray *)groups title:(NSString *)title;
 
+/**
+ Returns the field with the given identifier, nil if it doesn't exist
+ */
+- (AlfrescoFormField *)fieldWithIdentifier:(NSString *)identifier;
+
 @end

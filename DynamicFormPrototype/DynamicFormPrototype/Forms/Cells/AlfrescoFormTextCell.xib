@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -13,16 +13,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A2D-Cr-lzh">
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A2D-Cr-lzh">
                         <rect key="frame" x="145" y="7" width="160" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <constraints>
-                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="160" id="R2E-X7-jhg"/>
-                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7R-A0-zF9">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7R-A0-zF9">
                         <rect key="frame" x="16" y="11" width="112" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -31,12 +28,12 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="A2D-Cr-lzh" firstAttribute="leading" secondItem="l7R-A0-zF9" secondAttribute="trailing" constant="17" id="QWN-9H-n6v"/>
-                    <constraint firstAttribute="trailing" secondItem="A2D-Cr-lzh" secondAttribute="trailing" constant="15" id="gFa-VE-eXz"/>
-                    <constraint firstItem="A2D-Cr-lzh" firstAttribute="top" secondItem="5kq-iu-8Cg" secondAttribute="top" constant="7" id="hR8-3w-4jd"/>
-                    <constraint firstAttribute="bottom" secondItem="A2D-Cr-lzh" secondAttribute="bottom" constant="6" id="kuO-Xn-pqh"/>
-                    <constraint firstItem="l7R-A0-zF9" firstAttribute="centerY" secondItem="5kq-iu-8Cg" secondAttribute="centerY" id="pkn-fs-Dcd"/>
-                    <constraint firstItem="l7R-A0-zF9" firstAttribute="leading" secondItem="5kq-iu-8Cg" secondAttribute="leading" constant="16" id="sqT-hW-uDw"/>
+                    <constraint firstAttribute="bottom" secondItem="A2D-Cr-lzh" secondAttribute="bottom" constant="6" id="Haa-Ty-GI2"/>
+                    <constraint firstAttribute="trailing" secondItem="A2D-Cr-lzh" secondAttribute="trailing" constant="15" id="abj-g5-cvt"/>
+                    <constraint firstItem="l7R-A0-zF9" firstAttribute="leading" secondItem="5kq-iu-8Cg" secondAttribute="leading" constant="16" id="czX-x6-Epo"/>
+                    <constraint firstItem="l7R-A0-zF9" firstAttribute="centerY" secondItem="5kq-iu-8Cg" secondAttribute="centerY" id="h2E-NY-sMx"/>
+                    <constraint firstItem="A2D-Cr-lzh" firstAttribute="leading" secondItem="l7R-A0-zF9" secondAttribute="trailing" constant="25" id="hFW-bQ-gGt"/>
+                    <constraint firstItem="A2D-Cr-lzh" firstAttribute="top" secondItem="5kq-iu-8Cg" secondAttribute="top" constant="7" id="uuv-iF-vkc"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

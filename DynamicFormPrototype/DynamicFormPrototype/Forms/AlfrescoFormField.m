@@ -35,6 +35,17 @@ NSString * const kAlfrescoFormControlParameterShowBorder = @"org.alfresco.mobile
         self.value = value;
         self.originalValue = self.value;
         self.label = label;
+        
+        // check for NSNull
+        if ([self.value isKindOfClass:[NSNull class]])
+        {
+            self.value = nil;
+            self.originalValue = nil;
+        }
+        if ([self.label isKindOfClass:[NSNull class]])
+        {
+            self.label = nil;
+        }
     }
     return self;
 }
@@ -113,7 +124,7 @@ NSString * const kAlfrescoFormControlParameterShowBorder = @"org.alfresco.mobile
 
 + (AlfrescoFormFieldType)enumForTypeString:(NSString *)typeString
 {
-    AlfrescoFormFieldType type;
+    AlfrescoFormFieldType type = AlfrescoFormFieldTypeUnknown;
     
     if ([typeString caseInsensitiveCompare:@"string"] == NSOrderedSame)
     {

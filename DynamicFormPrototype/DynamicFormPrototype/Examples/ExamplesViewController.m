@@ -7,13 +7,13 @@
 //
 
 #import "ExamplesViewController.h"
-#import "JSONEntryViewController.h"
 #import "AlfrescoListOfValuesPickerViewController.h"
 #import "AlfrescoFormListOfValuesConstraint.h"
 #import "AlfrescoFormMandatoryConstraint.h"
+#import "ActivitiTaskFormRequestDelegate.h"
 
 @interface ExamplesViewController ()
-
+@property (nonatomic, strong) ActivitiTaskFormRequestDelegate *activitiFormDelegate;
 @end
 
 @implementation ExamplesViewController
@@ -60,7 +60,7 @@
     }
     else if (indexPath.row == 2)
     {
-        cell.textLabel.text = @"Start Activiti Task";
+        cell.textLabel.text = @"Activiti Task";
     }
     else if (indexPath.row == 3)
     {
@@ -86,7 +86,9 @@
     }
     else if (indexPath.row == 2)
     {
-        viewController = [[JSONEntryViewController alloc] initWithNibName:@"JSONEntryViewController" bundle:nil];
+        viewController = [[AlfrescoFormViewController alloc] initWithForm:[self buildActivitiTaskRequestForm]];
+        self.activitiFormDelegate = [ActivitiTaskFormRequestDelegate new];
+        ((AlfrescoFormViewController *)viewController).delegate = self.activitiFormDelegate;
     }
     else if (indexPath.row == 3)
     {
@@ -256,6 +258,28 @@
                                                                                            label:@"Scheduling"];
     
     return [[AlfrescoForm alloc] initWithGroups:@[generalGroup, mongoGroup, httpGroup, schedulingGroup] title:@"Edit Properties"];
+}
+
+- (AlfrescoForm *)buildActivitiTaskRequestForm
+{
+    AlfrescoFormField *usernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"username" type:AlfrescoFormFieldTypeString value:@"admin@app.activiti.com" label:@"Username"];
+    [usernameField addConstraint:[AlfrescoFormMandatoryConstraint new]];
+    
+    AlfrescoFormField *passwordField = [[AlfrescoFormField alloc] initWithIdentifier:@"password" type:AlfrescoFormFieldTypeString value:@"cherok33" label:@"Password"];
+    passwordField.secret = YES;
+    [passwordField addConstraint:[AlfrescoFormMandatoryConstraint new]];
+    
+    AlfrescoFormField *appUrlField = [[AlfrescoFormField alloc] initWithIdentifier:@"appUrl" type:AlfrescoFormFieldTypeURL value:@"http://localhost:7777/rest/app" label:@"URL"];
+    [appUrlField addConstraint:[AlfrescoFormMandatoryConstraint new]];
+    
+    AlfrescoFormField *taskIdField = [[AlfrescoFormField alloc] initWithIdentifier:@"taskId" type:AlfrescoFormFieldTypeNumber value:nil label:@"Task ID"];
+    [taskIdField addConstraint:[AlfrescoFormMandatoryConstraint new]];
+    
+    AlfrescoFormFieldGroup *group = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"default"
+                                                                                fields:@[usernameField, passwordField, appUrlField, taskIdField]
+                                                                                 label:nil];
+    
+    return [[AlfrescoForm alloc] initWithGroups:@[group] title:@"Task Details"];
 }
 
 - (void)formViewController:(AlfrescoFormViewController *)viewController didEndEditingOfForm:(AlfrescoForm *)form
