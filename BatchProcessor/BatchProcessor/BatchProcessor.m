@@ -9,9 +9,8 @@
 
 @interface BatchProcessor ()
 @property (nonatomic, copy) BatchCompletionBlock completionBlock;
-@property (nonatomic, strong) NSMutableDictionary *resultsDictionary;
-@property (nonatomic, strong) NSMutableArray *resultsArray;
-@property (nonatomic, strong) NSMutableArray *errors;
+@property (nonatomic, strong) NSMutableDictionary *results;
+@property (nonatomic, strong) NSMutableDictionary *errors;
 @property (nonatomic, strong) NSMutableArray *unitsOfWork;
 @property (nonatomic, copy) ParameterisedUnitOfWorkBlock parameterisedWork;
 @property (nonatomic, strong) NSArray *parameters;
@@ -27,13 +26,17 @@
     if (self)
     {
         self.completionBlock = completionBlock;
-        self.resultsDictionary = [NSMutableDictionary dictionary];
-        self.resultsArray = [NSMutableArray array];
-        self.errors = [NSMutableArray array];
+        self.results = [NSMutableDictionary dictionary];
+        self.errors = [NSMutableDictionary dictionary];
         self.unitsOfWork = [NSMutableArray array];
     }
     
     return self;
+}
+
+- (instancetype)initWithCompletionBlock:(BatchCompletionBlock)completionBlock options:(BatchProcessorOptions *)options
+{
+    return [self initWithCompletionBlock:completionBlock];
 }
 
 - (void)addUnitOfWork:(void (^)())work
@@ -51,18 +54,13 @@
 {
     if ([result isKindOfClass:[NSError class]])
     {
-        [self.errors addObject:result];
+        self.errors[key] = result;
         
         NSLog(@"Stored error: %@ on thread %@", result, [NSThread currentThread]);
     }
     else
     {
-        if (key)
-        {
-            self.resultsDictionary[key] = result;
-        }
-        
-        [self.resultsArray addObject:result];
+        self.results[key] = result;
         
         NSLog(@"Stored result with key '%@' on thread %@", key, [NSThread currentThread]);
     }
@@ -72,11 +70,10 @@
     
     if (self.numberOfExpectedResults == 0)
     {
-        // TODO: call the completion block on the main thread
-        
         NSLog(@"Calling completion block on thread %@", [NSThread currentThread]);
-        
-        self.completionBlock(self.resultsDictionary, self.resultsArray, self.errors);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.completionBlock(self.results, self.errors);
+        });
     }
 }
 

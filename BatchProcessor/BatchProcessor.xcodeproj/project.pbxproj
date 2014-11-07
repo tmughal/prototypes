@@ -15,6 +15,12 @@
 		5800764E19EFAF6C00B6A4EE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5800764C19EFAF6C00B6A4EE /* LaunchScreen.xib */; };
 		5800765A19EFAF6C00B6A4EE /* BatchProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5800765919EFAF6C00B6A4EE /* BatchProcessorTests.m */; };
 		5800766719EFB02800B6A4EE /* BatchProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5800766619EFB02800B6A4EE /* BatchProcessor.m */; };
+		5870DED519FA67A4001335B3 /* BatchProcessorQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5870DED419FA67A4001335B3 /* BatchProcessorQueue.m */; };
+		5870DED819FA8663001335B3 /* UnitOfWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5870DED719FA8663001335B3 /* UnitOfWork.m */; };
+		5870DEDA19FA8D83001335B3 /* BatchProcessorQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5870DED919FA8D83001335B3 /* BatchProcessorQueueTests.m */; };
+		5887BC851A0A749D00067E64 /* NonConcurrentUnitOfWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5887BC841A0A749D00067E64 /* NonConcurrentUnitOfWork.m */; };
+		5887BC881A0A759400067E64 /* ConcurrentUnitOfWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5887BC871A0A759400067E64 /* ConcurrentUnitOfWork.m */; };
+		5887BC8B1A0A984000067E64 /* BatchProcessorOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5887BC8A1A0A984000067E64 /* BatchProcessorOptions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +49,17 @@
 		5800765919EFAF6C00B6A4EE /* BatchProcessorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BatchProcessorTests.m; sourceTree = "<group>"; };
 		5800766519EFB02800B6A4EE /* BatchProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchProcessor.h; sourceTree = "<group>"; };
 		5800766619EFB02800B6A4EE /* BatchProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchProcessor.m; sourceTree = "<group>"; };
+		5870DED319FA67A4001335B3 /* BatchProcessorQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchProcessorQueue.h; sourceTree = "<group>"; };
+		5870DED419FA67A4001335B3 /* BatchProcessorQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchProcessorQueue.m; sourceTree = "<group>"; };
+		5870DED619FA8663001335B3 /* UnitOfWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitOfWork.h; sourceTree = "<group>"; };
+		5870DED719FA8663001335B3 /* UnitOfWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitOfWork.m; sourceTree = "<group>"; };
+		5870DED919FA8D83001335B3 /* BatchProcessorQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchProcessorQueueTests.m; sourceTree = "<group>"; };
+		5887BC831A0A749D00067E64 /* NonConcurrentUnitOfWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonConcurrentUnitOfWork.h; sourceTree = "<group>"; };
+		5887BC841A0A749D00067E64 /* NonConcurrentUnitOfWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NonConcurrentUnitOfWork.m; sourceTree = "<group>"; };
+		5887BC861A0A759400067E64 /* ConcurrentUnitOfWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentUnitOfWork.h; sourceTree = "<group>"; };
+		5887BC871A0A759400067E64 /* ConcurrentUnitOfWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcurrentUnitOfWork.m; sourceTree = "<group>"; };
+		5887BC891A0A984000067E64 /* BatchProcessorOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchProcessorOptions.h; sourceTree = "<group>"; };
+		5887BC8A1A0A984000067E64 /* BatchProcessorOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchProcessorOptions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				5800765919EFAF6C00B6A4EE /* BatchProcessorTests.m */,
+				5870DED919FA8D83001335B3 /* BatchProcessorQueueTests.m */,
 				5800765719EFAF6C00B6A4EE /* Supporting Files */,
 			);
 			path = BatchProcessorTests;
@@ -136,6 +154,16 @@
 			children = (
 				5800766519EFB02800B6A4EE /* BatchProcessor.h */,
 				5800766619EFB02800B6A4EE /* BatchProcessor.m */,
+				5870DED319FA67A4001335B3 /* BatchProcessorQueue.h */,
+				5870DED419FA67A4001335B3 /* BatchProcessorQueue.m */,
+				5870DED619FA8663001335B3 /* UnitOfWork.h */,
+				5870DED719FA8663001335B3 /* UnitOfWork.m */,
+				5887BC831A0A749D00067E64 /* NonConcurrentUnitOfWork.h */,
+				5887BC841A0A749D00067E64 /* NonConcurrentUnitOfWork.m */,
+				5887BC861A0A759400067E64 /* ConcurrentUnitOfWork.h */,
+				5887BC871A0A759400067E64 /* ConcurrentUnitOfWork.m */,
+				5887BC891A0A984000067E64 /* BatchProcessorOptions.h */,
+				5887BC8A1A0A984000067E64 /* BatchProcessorOptions.m */,
 			);
 			name = Processor;
 			sourceTree = "<group>";
@@ -243,7 +271,12 @@
 				5800764619EFAF6C00B6A4EE /* ViewController.m in Sources */,
 				5800766719EFB02800B6A4EE /* BatchProcessor.m in Sources */,
 				5800764319EFAF6C00B6A4EE /* AppDelegate.m in Sources */,
+				5870DED519FA67A4001335B3 /* BatchProcessorQueue.m in Sources */,
+				5887BC881A0A759400067E64 /* ConcurrentUnitOfWork.m in Sources */,
+				5887BC8B1A0A984000067E64 /* BatchProcessorOptions.m in Sources */,
+				5887BC851A0A749D00067E64 /* NonConcurrentUnitOfWork.m in Sources */,
 				5800764019EFAF6C00B6A4EE /* main.m in Sources */,
+				5870DED819FA8663001335B3 /* UnitOfWork.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5800765A19EFAF6C00B6A4EE /* BatchProcessorTests.m in Sources */,
+				5870DEDA19FA8D83001335B3 /* BatchProcessorQueueTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +470,7 @@
 				5800765F19EFAF6C00B6A4EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5800766019EFAF6C00B6A4EE /* Build configuration list for PBXNativeTarget "BatchProcessorTests" */ = {
 			isa = XCConfigurationList;
@@ -444,6 +479,7 @@
 				5800766219EFAF6C00B6A4EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

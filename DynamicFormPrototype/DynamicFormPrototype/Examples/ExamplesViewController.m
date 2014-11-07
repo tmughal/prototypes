@@ -284,27 +284,7 @@
 
 - (void)formViewController:(AlfrescoFormViewController *)viewController didEndEditingOfForm:(AlfrescoForm *)form
 {
-    NSLog(@"ExamplesViewController::didEndEditingOfForm");
     
-    for (AlfrescoFormField *field in form.fields)
-    {
-        NSLog(@"Value of field %@ is %@", field.identifier, field.value);
-    }
-    
-    for (AlfrescoFormField *field in form.fields)
-    {
-        if (field.value == nil && field.originalValue == nil)
-        {
-            continue;
-        }
-        
-        if (![[field.value description] isEqualToString:[field.originalValue description]])
-        {
-            NSLog(@"field %@ was changed", field.identifier);
-        }
-    }
-    
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

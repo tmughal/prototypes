@@ -32,7 +32,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Future result expectation"];
     
-    BatchProcessor *bp = [[BatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *dictionary, NSArray *array, NSArray *errors) {
+    BatchProcessor *bp = [[BatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *dictionary, NSDictionary *errors) {
         [expectation fulfill];
 //        NSLog(@"result is: %@", dictionary);
         XCTAssertNotNil(dictionary, @"Expected the dictionary to be returned");
@@ -76,7 +76,7 @@
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Future result expectation"];
     
-    BatchProcessor *bp = [[BatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *dictionary, NSArray *array, NSArray *errors) {
+    BatchProcessor *bp = [[BatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *dictionary, NSDictionary *errors) {
         [expectation fulfill];
 //        NSLog(@"result is: %@", dictionary);
         XCTAssertNotNil(dictionary, @"Expected the dictionary to be returned");
@@ -103,8 +103,6 @@
 
 - (void)retrieveHomePageOfSite:(NSURL *)url completionBlock:(void (^)(NSString *homePageHtml, NSError *error))completionBlock
 {
-    // TODO: add the current thread to the log output
-    
     NSLog(@"Retrieving homepage for %@ on thread %@", url, [NSThread currentThread]);
     
     NSURLSession *session = [NSURLSession sharedSession];

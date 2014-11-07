@@ -6,18 +6,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BatchProcessorOptions.h"
 
 typedef void (^UnitOfWorkBlock)();
 typedef void (^ParameterisedUnitOfWorkBlock)(id parameter);
-typedef void (^BatchCompletionBlock)(NSDictionary *dictionary, NSArray *array, NSArray *errors);
+typedef void (^BatchCompletionBlock)(NSDictionary *dictionary, NSDictionary *errors);
 
 @interface BatchProcessor : NSObject
 
 @property (nonatomic, assign, readonly) BOOL inProgress;
-@property (nonatomic, assign, readonly, getter=isComplete) BOOL complete;
+@property (nonatomic, assign, readonly) BOOL complete;
 
 
 - (instancetype)initWithCompletionBlock:(BatchCompletionBlock)completionBlock;
+
+- (instancetype)initWithCompletionBlock:(BatchCompletionBlock)completionBlock options:(BatchProcessorOptions *)options;
 
 - (void)addUnitOfWork:(UnitOfWorkBlock)work;
 - (void)addParameterisedUnitOfWork:(ParameterisedUnitOfWorkBlock)work forParameters:(NSArray *)parameters;
