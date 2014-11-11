@@ -21,7 +21,11 @@
 #import <Foundation/Foundation.h>
 #import "AlfrescoUnitOfWork.h"
 
-typedef void (^AlfrescoBatchProcessorCompletionBlock)(NSDictionary *dictionary, NSDictionary *errors);
+typedef void (^AlfrescoBatchProcessorCompletionBlock)(NSDictionary *results, NSDictionary *errors);
+
+@interface AlfrescoBatchProcessorOptions : NSObject
+@property (nonatomic, assign) NSInteger maxConcurrentUnitsOfWork;
+@end
 
 @interface AlfrescoBatchProcessor : NSObject
 
@@ -29,6 +33,9 @@ typedef void (^AlfrescoBatchProcessorCompletionBlock)(NSDictionary *dictionary, 
 @property (nonatomic, assign, readonly) BOOL cancelled;
 
 - (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock;
+
+- (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock
+                                options:(AlfrescoBatchProcessorOptions *)options;
 
 - (void)addUnitOfWork:(AlfrescoUnitOfWork *)work;
 

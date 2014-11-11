@@ -20,6 +20,9 @@
 
 #import "AlfrescoBatchProcessor.h"
 
+@implementation AlfrescoBatchProcessorOptions
+@end
+
 @interface AlfrescoBatchProcessor ()
 @property (nonatomic, assign, readwrite) BOOL inProgress;
 @property (nonatomic, assign, readwrite) BOOL cancelled;
@@ -29,12 +32,19 @@
 @property (nonatomic, strong) NSMutableDictionary *errors;
 @property (nonatomic, strong) NSMutableArray *unitsOfWork;
 @property (nonatomic, strong) NSOperationQueue *queue;
+@property (nonatomic, strong) NSLock *mutexLock;
 @end
 
 
 @implementation AlfrescoBatchProcessor
 
 - (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock
+{
+    return [self initWithCompletionBlock:completionBlock options:nil];
+}
+
+- (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock
+                                options:(AlfrescoBatchProcessorOptions *)options
 {
     self = [super init];
     
@@ -47,11 +57,15 @@
         self.results = [NSMutableDictionary dictionary];
         self.errors = [NSMutableDictionary dictionary];
         self.unitsOfWork = [NSMutableArray array];
+        self.mutexLock = [[NSLock alloc] init];
         
         // initialise internal queue
         self.queue = [[NSOperationQueue alloc] init];
         self.queue.name = @"Batch Processor Queue";
-//        self.queue.maxConcurrentOperationCount = 1;
+        if (options && options.maxConcurrentUnitsOfWork)
+        {
+            self.queue.maxConcurrentOperationCount = options.maxConcurrentUnitsOfWork;
+        }
     }
     
     return self;
@@ -79,10 +93,6 @@
     }
     
     NSLog(@"Launched %lu units of work", (unsigned long)self.unitsOfWork.count);
-    
-    // remove the units of work from the array
-    [self.unitsOfWork removeAllObjects];
-    self.unitsOfWork = nil;
 }
 
 - (void)cancel
@@ -98,12 +108,12 @@
 
 - (void)storeUnitOfWorkResult:(AlfrescoUnitOfWork *)work
 {
-    // TODO: we may need add some locks in this method as NSMutableDictionary is not thread-safe,
-    //       there is also a chance that more than one thread can finish at the same time and
-    //       end up calling the batch processor completion block more than once!
-    
     id result = work.result;
     NSString *key = work.key;
+    
+    // take out a lock so the dictionaries are only updated by one thread at a time,
+    // likewise for the checking and calling of the completion block.
+    [self.mutexLock lock];
     
     if ([result isKindOfClass:[NSError class]])
     {
@@ -118,17 +128,30 @@
         NSLog(@"Stored result for key: %@", key);
     }
     
-    if (self.queue.operationCount == 0)
+    // remove the unit of work from the internal array
+    [self.unitsOfWork removeObject:work];
+    
+    if (self.unitsOfWork.count == 0)
     {
-        NSLog(@"All units of work have completed, calling completion block");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.completionBlock(self.results, self.errors);
-        });
+        self.inProgress = NO;
+        
+        NSLog(@"All units of work have completed");
+        
+        if (self.completionBlock != NULL)
+        {
+            NSLog(@"Calling completion block on main thread");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.completionBlock(self.results, self.errors);
+            });
+        }
     }
     else
     {
-        NSLog(@"There are %lu units of work in progress", (unsigned long)self.queue.operationCount);
+        NSLog(@"There are %lu units of work in progress", (unsigned long)self.unitsOfWork.count);
     }
+    
+    // remove the lock
+    [self.mutexLock unlock];
 }
 
 @end

@@ -60,6 +60,12 @@
     [self startWork];
 }
 
+- (void)cancel
+{
+    NSLog(@"Cancelling work for key: %@", self.key);
+    [self cancelWork];
+}
+
 - (BOOL)isConcurrent
 {
     return YES;
