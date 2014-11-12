@@ -7,14 +7,11 @@
 //
 
 #import "ExamplesViewController.h"
-#import "AlfrescoListOfValuesPickerViewController.h"
-#import "AlfrescoFormListOfValuesConstraint.h"
-#import "AlfrescoFormMandatoryConstraint.h"
-#import "ActivitiTaskFormRequestDelegate.h"
-
-@interface ExamplesViewController ()
-@property (nonatomic, strong) ActivitiTaskFormRequestDelegate *activitiFormDelegate;
-@end
+#import "AlfrescoFormViewController.h"
+#import "NewAccountFormViewController.h"
+#import "AddBenchmarkTestFormViewController.h"
+#import "EditBenchmarkPropertiesFormViewController.h"
+#import "RetrieveActivitiTaskFormViewController.h"
 
 @implementation ExamplesViewController
 
@@ -60,11 +57,11 @@
     }
     else if (indexPath.row == 2)
     {
-        cell.textLabel.text = @"Activiti Task";
+        cell.textLabel.text = @"Edit Benchmark Properties";
     }
     else if (indexPath.row == 3)
     {
-        cell.textLabel.text = @"Edit Benchmark Properties";
+        cell.textLabel.text = @"Activiti Task";
     }
     
     return cell;
@@ -76,215 +73,22 @@
     
     if (indexPath.row == 0)
     {
-        viewController = [[AlfrescoFormViewController alloc] initWithForm:[self buildNewAccountForm]];
-        ((AlfrescoFormViewController *)viewController).delegate = self;
+        viewController = [NewAccountFormViewController new];
     }
     else if (indexPath.row == 1)
     {
-        viewController = [[AlfrescoFormViewController alloc] initWithForm:[self buildBenchmarkTestForm]];
-        ((AlfrescoFormViewController *)viewController).delegate = self;
+        viewController = [AddBenchmarkTestFormViewController new];
     }
     else if (indexPath.row == 2)
     {
-        viewController = [[AlfrescoFormViewController alloc] initWithForm:[self buildActivitiTaskRequestForm]];
-        self.activitiFormDelegate = [ActivitiTaskFormRequestDelegate new];
-        ((AlfrescoFormViewController *)viewController).delegate = self.activitiFormDelegate;
+        viewController = [EditBenchmarkPropertiesFormViewController new];
     }
     else if (indexPath.row == 3)
     {
-        viewController = [[AlfrescoFormViewController alloc] initWithForm:[self buildBenchmarkPropertiesForm]];
-        ((AlfrescoFormViewController *)viewController).delegate = self;
+        viewController = [RetrieveActivitiTaskFormViewController new];
     }
     
     [self.navigationController pushViewController:viewController animated:YES];
-}
-
-- (AlfrescoForm *)buildNewAccountForm
-{
-    NSString *requiredString = @"Required";
-    NSString *syncSummaryString = @"Select to sync favorited content to your device. A warning will be displayed before syncing content over 20MB";
-    
-    // account details fields
-    AlfrescoFormField *usernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"username" type:AlfrescoFormFieldTypeString value:nil label:@"Username"];
-    [usernameField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    usernameField.placeholderText = requiredString;
-    
-    AlfrescoFormField *passwordField = [[AlfrescoFormField alloc] initWithIdentifier:@"password" type:AlfrescoFormFieldTypeString value:nil label:@"Password"];
-    [passwordField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    passwordField.secret = YES;
-    passwordField.placeholderText = requiredString;
-    
-    AlfrescoFormField *serverField = [[AlfrescoFormField alloc] initWithIdentifier:@"server" type:AlfrescoFormFieldTypeString value:nil label:@"Server Address"];
-    [serverField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    serverField.placeholderText = requiredString;
-    
-    AlfrescoFormField *descriptionField = [[AlfrescoFormField alloc] initWithIdentifier:@"description" type:AlfrescoFormFieldTypeString value:nil label:@"Description"];
-    descriptionField.placeholderText = @"Alfresco Server";
-    
-    AlfrescoFormField *httpsField = [[AlfrescoFormField alloc] initWithIdentifier:@"https" type:AlfrescoFormFieldTypeBoolean value:@(YES) label:@"HTTPS"];
-    
-    // settings fields
-    AlfrescoFormField *syncField = [[AlfrescoFormField alloc] initWithIdentifier:@"sync" type:AlfrescoFormFieldTypeBoolean value:@(NO) label:@"Sync Favorite Content"];
-    
-    // advanced fields
-    AlfrescoFormField *portField = [[AlfrescoFormField alloc] initWithIdentifier:@"port" type:AlfrescoFormFieldTypeNumber value:@443 label:@"Port"];
-    [portField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    
-    AlfrescoFormField *serviceDocField = [[AlfrescoFormField alloc] initWithIdentifier:@"serviceDocument" type:AlfrescoFormFieldTypeString value:@"/alfresco" label:@"Service Document"];
-    [serverField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    
-    AlfrescoFormField *clientCertField = [[AlfrescoFormField alloc] initWithIdentifier:@"clientCertificate" type:AlfrescoFormFieldTypeCustom value:@"Custom Field" label:@"Client Certificate"];
-    
-    // account details group
-    AlfrescoFormFieldGroup *accountGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"accountdetails"
-                                                                                       fields:@[usernameField, passwordField, serverField, descriptionField, httpsField]
-                                                                                        label:@"Account Details"];
-    
-    // settings group
-    AlfrescoFormFieldGroup *settingsGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"settings"
-                                                                                        fields:@[syncField]
-                                                                                         label:@"Settings"
-                                                                                       summary:syncSummaryString];
-    
-    // advanced group
-    AlfrescoFormFieldGroup *advancedGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"advanced"
-                                                                                        fields:@[portField, serviceDocField, clientCertField]
-                                                                                         label:@"Advanced"];
-    
-    // create form
-    return [[AlfrescoForm alloc] initWithGroups:@[accountGroup, settingsGroup, advancedGroup] title:@"New Account"];
-}
-
-- (AlfrescoForm *)buildBenchmarkTestForm
-{
-    AlfrescoFormField *definitionField = [[AlfrescoFormField alloc] initWithIdentifier:@"testdefinition" type:AlfrescoFormFieldTypeString value:nil label:@"Definition"];
-    NSArray *values = @[@"123", @"456", @"789"];
-    NSArray *labels = @[@"Sample Test Definition", @"Share Test Definition", @"Cloud Test Definition"];
-    AlfrescoFormListOfValuesConstraint *constraint = [[AlfrescoFormListOfValuesConstraint alloc] initWithValues:values labels:labels];
-    [definitionField addConstraint:constraint];
-    [definitionField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    
-    AlfrescoFormField *nameField = [[AlfrescoFormField alloc] initWithIdentifier:@"name" type:AlfrescoFormFieldTypeString value:nil label:@"Name"];
-    [nameField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    nameField.placeholderText = @"Test Name";
-    
-    AlfrescoFormField *descriptionField = [[AlfrescoFormField alloc] initWithIdentifier:@"description" type:AlfrescoFormFieldTypeString value:nil label:@"Description"];
-    descriptionField.placeholderText = @"Test Description";
-    
-    AlfrescoFormFieldGroup *group = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"default"
-                                                                                       fields:@[definitionField, nameField, descriptionField]
-                                                                                        label:nil];
-    
-    return [[AlfrescoForm alloc] initWithGroups:@[group] title:@"Add Test"];
-}
-
-- (AlfrescoForm *)buildBenchmarkPropertiesForm
-{
-    NSDictionary *commonControlParameters = @{kAlfrescoFormControlParameterAllowReset: @YES, kAlfrescoFormControlParameterShowBorder: @YES};
-    
-    // general fields
-    AlfrescoFormField *processUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"processusername" type:AlfrescoFormFieldTypeString value:@"user" label:@"Process User"];
-    processUsernameField.placeholderText = @"admin";
-    processUsernameField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *processPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"processpwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"Process Password"];
-    processPasswordField.secret = YES;
-    processPasswordField.placeholderText = @"*****";
-    processPasswordField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *processEmailField = [[AlfrescoFormField alloc] initWithIdentifier:@"processemail" type:AlfrescoFormFieldTypeEmail value:nil label:@"Process Email"];
-    processEmailField.placeholderText = @"bm@alfresco.com";
-    processEmailField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *processCountField = [[AlfrescoFormField alloc] initWithIdentifier:@"processcount" type:AlfrescoFormFieldTypeNumber value:nil label:@"Process Count"];
-    processCountField.placeholderText = @"200";
-    processCountField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *processDelayField = [[AlfrescoFormField alloc] initWithIdentifier:@"processdelay" type:AlfrescoFormFieldTypeNumber value:nil label:@"Process Delay"];
-    processDelayField.placeholderText = @"0.5";
-    processDelayField.controlParameters = @{kAlfrescoFormControlParameterAllowDecimals: @YES,
-                                            kAlfrescoFormControlParameterAllowReset: @YES,
-                                            kAlfrescoFormControlParameterShowBorder: @YES};
-    
-    // mongo DB fields
-    AlfrescoFormField *mongoUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongousername" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.username"];
-    mongoUsernameField.placeholderText = @"mongo";
-    mongoUsernameField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *mongoPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongopwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"mongo.test.password"];
-    mongoPasswordField.placeholderText = @"*****";
-    mongoPasswordField.secret = YES;
-    mongoPasswordField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *mongoDBField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongodb" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.database"];
-    mongoDBField.placeholderText = @"bm20-data";
-    mongoDBField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *mongoHostField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongohost" type:AlfrescoFormFieldTypeURL value:nil label:@"mongo.test.host"];
-    [mongoHostField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    mongoHostField.placeholderText = @"http://localhost:27127";
-    mongoHostField.controlParameters = commonControlParameters;
-
-    // http fields
-    AlfrescoFormField *httpTimeoutField = [[AlfrescoFormField alloc] initWithIdentifier:@"httptimeout" type:AlfrescoFormFieldTypeNumber value:nil label:@"http.connection.timeoutMs"];
-    httpTimeoutField.placeholderText = @"10000";
-    httpTimeoutField.controlParameters = commonControlParameters;
-    
-    AlfrescoFormField *httpMaxField = [[AlfrescoFormField alloc] initWithIdentifier:@"httpmax" type:AlfrescoFormFieldTypeNumber value:nil label:@"http.connection.max"];
-    httpMaxField.placeholderText = @"${events.thread.count}";
-    httpMaxField.controlParameters = commonControlParameters;
-    
-    // scheduling fields
-    double seconds = [[NSDate date] timeIntervalSince1970] - 86400;
-    NSDate *pastDate = [NSDate dateWithTimeIntervalSince1970:seconds];
-    AlfrescoFormField *startOnField = [[AlfrescoFormField alloc] initWithIdentifier:@"starton" type:AlfrescoFormFieldTypeDate value:pastDate label:@"Start On"];
-    AlfrescoFormField *dueByField = [[AlfrescoFormField alloc] initWithIdentifier:@"dueby" type:AlfrescoFormFieldTypeDateTime value:[NSDate date] label:@"Due By"];
-    
-    // groups
-    AlfrescoFormFieldGroup *generalGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"general"
-                                                                                       fields:@[processUsernameField, processPasswordField, processEmailField, processCountField, processDelayField]
-                                                                                        label:@"General"];
-    
-    AlfrescoFormFieldGroup *mongoGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"mongoProperties"
-                                                                                    fields:@[mongoUsernameField, mongoPasswordField, mongoDBField, mongoHostField]
-                                                                                     label:@"MongoDB Connection"];
-    
-    AlfrescoFormFieldGroup *httpGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"http"
-                                                                                    fields:@[httpTimeoutField, httpMaxField]
-                                                                                     label:@"Http Connections"];
-    
-    AlfrescoFormFieldGroup *schedulingGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"scheduling"
-                                                                                          fields:@[startOnField, dueByField]
-                                                                                           label:@"Scheduling"];
-    
-    return [[AlfrescoForm alloc] initWithGroups:@[generalGroup, mongoGroup, httpGroup, schedulingGroup] title:@"Edit Properties"];
-}
-
-- (AlfrescoForm *)buildActivitiTaskRequestForm
-{
-    AlfrescoFormField *usernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"username" type:AlfrescoFormFieldTypeString value:@"admin@app.activiti.com" label:@"Username"];
-    [usernameField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    
-    AlfrescoFormField *passwordField = [[AlfrescoFormField alloc] initWithIdentifier:@"password" type:AlfrescoFormFieldTypeString value:@"cherok33" label:@"Password"];
-    passwordField.secret = YES;
-    [passwordField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    
-    AlfrescoFormField *appUrlField = [[AlfrescoFormField alloc] initWithIdentifier:@"appUrl" type:AlfrescoFormFieldTypeURL value:@"http://localhost:7777/rest/app" label:@"URL"];
-    [appUrlField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    
-    AlfrescoFormField *taskIdField = [[AlfrescoFormField alloc] initWithIdentifier:@"taskId" type:AlfrescoFormFieldTypeNumber value:nil label:@"Task ID"];
-    [taskIdField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    
-    AlfrescoFormFieldGroup *group = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"default"
-                                                                                fields:@[usernameField, passwordField, appUrlField, taskIdField]
-                                                                                 label:nil];
-    
-    return [[AlfrescoForm alloc] initWithGroups:@[group] title:@"Task Details"];
-}
-
-- (void)formViewController:(AlfrescoFormViewController *)viewController didEndEditingOfForm:(AlfrescoForm *)form
-{
-    
 }
 
 @end

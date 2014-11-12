@@ -2,7 +2,7 @@
 //  AlfrescoFormViewController.m
 //  DynamicFormPrototype
 //
-//  Created by Gavin Cornwell on 14/05/2014.
+//  Created by Gavin Cornwell on 12/11/2014.
 //  Copyright (c) 2014 Gavin Cornwell. All rights reserved.
 //
 
@@ -14,7 +14,9 @@
 #import "AlfrescoFormListOfValuesConstraint.h"
 
 @interface AlfrescoFormViewController ()
-@property (nonatomic, strong, readwrite) AlfrescoForm *form;
+@property (nonatomic, strong, readwrite) AlfrescoFormView *formView;
+
+@property (nonatomic, strong) AlfrescoForm *form;
 @property (nonatomic, strong) NSMutableDictionary *cells;
 @end
 
@@ -22,14 +24,22 @@
 
 #pragma mark - Initialisation
 
-- (instancetype)initWithForm:(AlfrescoForm *)form
+- (instancetype)init
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self)
     {
-        self.form = form;
+        self.formView = [[AlfrescoFormView alloc] init];
+        self.formView.delegate = self;
+        self.formView.dataSource = self;
+        self.loadFormAsynchronously = NO;
     }
     return self;
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    return [self init];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -46,6 +56,46 @@
 {
     [super viewDidLoad];
     
+    if (self.loadFormAsynchronously)
+    {
+        if ([self.formView.dataSource respondsToSelector:@selector(formView:loadFormWithCompletionBlock:)])
+        {
+            [self.formView.dataSource formView:self.formView loadFormWithCompletionBlock:^(AlfrescoForm *form, NSError *error) {
+                if (form)
+                {
+                    self.form = form;
+                    [self configureForm];
+                    [self.tableView reloadData];
+                }
+                else
+                {
+                    // create an error alert
+                    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Form Load Failed"
+                                                                              message:[error localizedDescription]
+                                                                             delegate:nil
+                                                                    cancelButtonTitle:@"OK"
+                                                                    otherButtonTitles:nil, nil];
+                    
+                    // show error alert on the main thread
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [errorAlert show];
+                    });
+                }
+            }];
+        }
+    }
+    else
+    {
+        if ([self.formView.dataSource respondsToSelector:@selector(formForFormView:)])
+        {
+            self.form = [self.formView.dataSource formForFormView:self.formView];
+            [self configureForm];
+        }
+    }
+}
+
+- (void)configureForm
+{
     // Add done button
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                            target:self
@@ -54,12 +104,6 @@
     // set form title
     self.title = self.form.title;
     
-    // configure form
-    [self configureForm];
-}
-
-- (void)configureForm
-{
     self.cells = [NSMutableDictionary dictionary];
     
     for (AlfrescoFormFieldGroup *group in self.form.groups)
@@ -122,47 +166,95 @@
     [super viewWillDisappear:animated];
 }
 
+#pragma mark - Form view data source
+
+- (AlfrescoForm *)formForFormView:(AlfrescoFormView *)formView
+{
+    // return an empty form by default
+    return [AlfrescoForm new];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections, will equal the number of groups
-    return self.form.groups.count;
+    if (self.form)
+    {
+        // Return the number of sections, will equal the number of groups
+        return self.form.groups.count;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section, will be the number of fields in the group.
-    AlfrescoFormFieldGroup *group = self.form.groups[section];
-    return group.fields.count;
+    if (self.form)
+    {
+        // Return the number of rows in the section, will be the number of fields in the group.
+        AlfrescoFormFieldGroup *group = self.form.groups[section];
+        return group.fields.count;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self formCellForInexPath:indexPath];
+    if (self.form)
+    {
+        return [self formCellForIndexPath:indexPath];
+    }
+    else
+    {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.textLabel.text = @"Loading Form...";
+        return cell;
+    }
 }
 
 #pragma mark - Table view delegate
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    AlfrescoFormFieldGroup *group = self.form.groups[section];
-    return group.label;
+    if (self.form)
+    {
+        AlfrescoFormFieldGroup *group = self.form.groups[section];
+        return group.label;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    AlfrescoFormFieldGroup *group = self.form.groups[section];
-    return group.summary;
+    if (self.form)
+    {
+        AlfrescoFormFieldGroup *group = self.form.groups[section];
+        return group.summary;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AlfrescoFormCell *formCell = [self formCellForInexPath:indexPath];
-    
-    if (formCell.isSelectable)
+    if (self.form)
     {
-        return indexPath;
+        AlfrescoFormCell *formCell = [self formCellForIndexPath:indexPath];
+        
+        if (formCell.isSelectable)
+        {
+            return indexPath;
+        }
     }
     
     return nil;
@@ -170,7 +262,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AlfrescoFormCell *formCell = [self formCellForInexPath:indexPath];
+    AlfrescoFormCell *formCell = [self formCellForIndexPath:indexPath];
     [formCell didSelectCellWithNavigationController:self.navigationController];
 }
 
@@ -178,9 +270,11 @@
 
 - (void)doneButtonClicked:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(formViewController:didEndEditingOfForm:)])
+    // TODO: call the willEndEditing first
+    
+    if ([self.formView.delegate respondsToSelector:@selector(formView:didEndEditingOfForm:withOutcome:)])
     {
-        [self.delegate formViewController:self didEndEditingOfForm:self.form];
+        [self.formView.delegate formView:self.formView didEndEditingOfForm:self.form withOutcome:nil];
     }
 }
 
@@ -188,9 +282,9 @@
 {
     BOOL isFormValid = self.form.valid;
     
-    if (isFormValid && [self.delegate respondsToSelector:@selector(formViewController:canPersistForm:)])
+    if (isFormValid && [self.formView.delegate respondsToSelector:@selector(formView:canPersistForm:)])
     {
-        isFormValid = [self.delegate formViewController:self canPersistForm:self.form];
+        isFormValid = [self.formView.delegate formView:self.formView canPersistForm:self.form];
     }
     
     // if form is not valid disable the done button
@@ -199,7 +293,7 @@
 
 #pragma mark - Helper methods
 
-- (AlfrescoFormCell *)formCellForInexPath:(NSIndexPath *)indexPath
+- (AlfrescoFormCell *)formCellForIndexPath:(NSIndexPath *)indexPath
 {
     AlfrescoFormFieldGroup *group = self.form.groups[indexPath.section];
     AlfrescoFormField *field = group.fields[indexPath.row];

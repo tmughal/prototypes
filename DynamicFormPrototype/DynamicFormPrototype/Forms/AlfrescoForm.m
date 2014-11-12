@@ -10,11 +10,17 @@
 
 @interface AlfrescoForm ()
 @property (nonatomic, strong, readwrite) NSArray *groups;
+@property (nonatomic, strong, readwrite) NSArray *outcomes;
 @end
 
 @implementation AlfrescoForm
 
 - (instancetype)initWithGroups:(NSArray *)groups title:(NSString *)title
+{
+    return [self initWithGroups:groups title:title outcomes:nil];
+}
+
+- (instancetype)initWithGroups:(NSArray *)groups title:(NSString *)title outcomes:(NSArray *)outcomes
 {
     self = [super init];
     if (self)
@@ -23,6 +29,7 @@
         
         self.groups = groups;
         self.title = title;
+        self.outcomes = outcomes;
     }
     
     return self;
@@ -58,6 +65,21 @@
     }
     
     return YES;
+}
+
+- (AlfrescoFormFieldGroup *)groupWithIdentifier:(NSString *)identifier
+{
+    // TODO: store groups in a dictionary to avoid loop below.
+    
+    for (AlfrescoFormFieldGroup *group in self.groups)
+    {
+        if ([group.identifier isEqualToString:identifier])
+        {
+            return group;
+        }
+    }
+    
+    return nil;
 }
 
 - (AlfrescoFormField *)fieldWithIdentifier:(NSString *)identifier

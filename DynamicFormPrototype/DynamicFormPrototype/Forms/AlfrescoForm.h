@@ -28,14 +28,29 @@
 @property (nonatomic, strong, readonly) NSArray *fields;
 
 /**
+ List of outcomes
+ */
+@property (nonatomic, strong, readonly) NSArray *outcomes;
+
+/**
  Indicates whether the form in it's current state is valid
  */
 @property (nonatomic, assign, readonly, getter = isValid) BOOL valid;
 
 /**
- Creates an AlfrescoForm object with the given groups
+ Creates an AlfrescoForm object with the given groups and title
  */
 - (instancetype)initWithGroups:(NSArray *)groups title:(NSString *)title;
+
+/**
+ Creates an AlfrescoForm object with the given groups, title and outcomes
+ */
+- (instancetype)initWithGroups:(NSArray *)groups title:(NSString *)title outcomes:(NSArray *)outcomes;
+
+/**
+ Returns the field group with the given identifier, nil if it doesn't exist
+ */
+- (AlfrescoFormFieldGroup *)groupWithIdentifier:(NSString *)identifier;
 
 /**
  Returns the field with the given identifier, nil if it doesn't exist

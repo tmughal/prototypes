@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AlfrescoFormViewController.h"
 
-@interface ExamplesViewController : UITableViewController <AlfrescoFormViewControllerDelegate>
+@interface ExamplesViewController : UITableViewController
 
 @end
