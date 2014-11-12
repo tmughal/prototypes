@@ -19,7 +19,6 @@
 		58604DD718F5D107002B09A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58604DB618F5D107002B09A5 /* UIKit.framework */; };
 		58604DDF18F5D107002B09A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58604DDD18F5D107002B09A5 /* InfoPlist.strings */; };
 		58604DE118F5D107002B09A5 /* DynamicFormPrototypeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58604DE018F5D107002B09A5 /* DynamicFormPrototypeTests.m */; };
-		5872ED9C1A1365520077FFC7 /* AlfrescoFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872ED9B1A1365520077FFC7 /* AlfrescoFormView.m */; };
 		5872ED9F1A1365820077FFC7 /* AlfrescoFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872ED9E1A1365820077FFC7 /* AlfrescoFormViewController.m */; };
 		5872EDA31A137D620077FFC7 /* NewAccountFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872EDA21A137D620077FFC7 /* NewAccountFormViewController.m */; };
 		5872EDA61A1380F40077FFC7 /* AddBenchmarkTestFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872EDA51A1380F40077FFC7 /* AddBenchmarkTestFormViewController.m */; };
@@ -74,8 +73,6 @@
 		58604DDC18F5D107002B09A5 /* DynamicFormPrototypeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DynamicFormPrototypeTests-Info.plist"; sourceTree = "<group>"; };
 		58604DDE18F5D107002B09A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		58604DE018F5D107002B09A5 /* DynamicFormPrototypeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DynamicFormPrototypeTests.m; sourceTree = "<group>"; };
-		5872ED9A1A1365520077FFC7 /* AlfrescoFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlfrescoFormView.h; path = Views/AlfrescoFormView.h; sourceTree = "<group>"; };
-		5872ED9B1A1365520077FFC7 /* AlfrescoFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlfrescoFormView.m; path = Views/AlfrescoFormView.m; sourceTree = "<group>"; };
 		5872ED9D1A1365820077FFC7 /* AlfrescoFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlfrescoFormViewController.h; path = Views/AlfrescoFormViewController.h; sourceTree = "<group>"; };
 		5872ED9E1A1365820077FFC7 /* AlfrescoFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlfrescoFormViewController.m; path = Views/AlfrescoFormViewController.m; sourceTree = "<group>"; };
 		5872EDA11A137D620077FFC7 /* NewAccountFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewAccountFormViewController.h; sourceTree = "<group>"; };
@@ -224,8 +221,6 @@
 		5872ED991A1365340077FFC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5872ED9A1A1365520077FFC7 /* AlfrescoFormView.h */,
-				5872ED9B1A1365520077FFC7 /* AlfrescoFormView.m */,
 				5872ED9D1A1365820077FFC7 /* AlfrescoFormViewController.h */,
 				5872ED9E1A1365820077FFC7 /* AlfrescoFormViewController.m */,
 			);
@@ -418,7 +413,6 @@
 				5892CB351923842600C7734A /* AlfrescoFormTextCell.m in Sources */,
 				5892CB5B192567DF00C7734A /* ExamplesViewController.m in Sources */,
 				5872EDA31A137D620077FFC7 /* NewAccountFormViewController.m in Sources */,
-				5872ED9C1A1365520077FFC7 /* AlfrescoFormView.m in Sources */,
 				58604DC318F5D107002B09A5 /* AppDelegate.m in Sources */,
 				5892CB53192566A000C7734A /* AlfrescoDatePickerViewController.m in Sources */,
 				5892CC2A192E547800C7734A /* AlfrescoFormMandatoryConstraint.m in Sources */,

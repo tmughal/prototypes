@@ -13,7 +13,7 @@
 
 #pragma mark - Form view data source
 
-- (AlfrescoForm *)formForFormView:(AlfrescoFormView *)formView
+- (AlfrescoForm *)formForFormViewController:(AlfrescoFormViewController *)formViewController
 {
     NSString *requiredString = @"Required";
     NSString *syncSummaryString = @"Select to sync favorited content to your device. A warning will be displayed before syncing content over 20MB";
@@ -71,21 +71,14 @@
 
 #pragma mark - Form view delegate
 
-- (void)formView:(AlfrescoFormView *)formView didEndEditingOfForm:(AlfrescoForm *)form withOutcome:(NSString *)outcome
+- (void)formViewController:(AlfrescoFormViewController *)formViewController didEndEditingWithOutcome:(NSString *)outcome
 {
-    NSLog(@"Finished editing form: %@", form);
+    NSLog(@"Finished editing form: %@", formViewController.form);
     
-    for (AlfrescoFormField *field in form.fields)
+    for (AlfrescoFormField *field in formViewController.form.fields)
     {
         NSLog(@"%@ = %@", field.identifier, field.value);
     }
-}
-
-- (BOOL)formView:(AlfrescoFormView *)formView canPersistForm:(AlfrescoForm *)form
-{
-    NSLog(@"Checking whether form can be persisted");
-    
-    return YES;
 }
 
 @end

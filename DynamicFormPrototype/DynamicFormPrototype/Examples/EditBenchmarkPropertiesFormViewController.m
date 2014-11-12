@@ -13,7 +13,7 @@
 
 #pragma mark - Form view data source
 
-- (AlfrescoForm *)formForFormView:(AlfrescoFormView *)formView
+- (AlfrescoForm *)formForFormViewController:(AlfrescoFormViewController *)formViewController
 {
     NSDictionary *commonControlParameters = @{kAlfrescoFormControlParameterAllowReset: @YES, kAlfrescoFormControlParameterShowBorder: @YES};
     
@@ -97,11 +97,11 @@
 
 #pragma mark - Form view delegate
 
-- (void)formView:(AlfrescoFormView *)formView didEndEditingOfForm:(AlfrescoForm *)form withOutcome:(NSString *)outcome
+- (void)formViewController:(AlfrescoFormViewController *)formViewController didEndEditingWithOutcome:(NSString *)outcome
 {
-    NSLog(@"Finished editing form: %@", form);
+    NSLog(@"Finished editing form: %@", formViewController.form);
     
-    for (AlfrescoFormField *field in form.fields)
+    for (AlfrescoFormField *field in formViewController.form.fields)
     {
         NSLog(@"%@ = %@", field.identifier, field.value);
     }

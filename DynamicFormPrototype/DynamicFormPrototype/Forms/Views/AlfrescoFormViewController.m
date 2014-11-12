@@ -14,9 +14,7 @@
 #import "AlfrescoFormListOfValuesConstraint.h"
 
 @interface AlfrescoFormViewController ()
-@property (nonatomic, strong, readwrite) AlfrescoFormView *formView;
-
-@property (nonatomic, strong) AlfrescoForm *form;
+@property (nonatomic, strong, readwrite) AlfrescoForm *form;
 @property (nonatomic, strong) NSMutableDictionary *cells;
 @end
 
@@ -29,10 +27,8 @@
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self)
     {
-        self.formView = [[AlfrescoFormView alloc] init];
-        self.formView.delegate = self;
-        self.formView.dataSource = self;
-        self.loadFormAsynchronously = NO;
+        self.dataSource = self;
+        self.delegate = self;
     }
     return self;
 }
@@ -56,41 +52,36 @@
 {
     [super viewDidLoad];
     
-    if (self.loadFormAsynchronously)
+    // determine whether to attempt to load the form asynchronously
+    if ([self.dataSource respondsToSelector:@selector(formViewController:loadFormWithCompletionBlock:)])
     {
-        if ([self.formView.dataSource respondsToSelector:@selector(formView:loadFormWithCompletionBlock:)])
-        {
-            [self.formView.dataSource formView:self.formView loadFormWithCompletionBlock:^(AlfrescoForm *form, NSError *error) {
-                if (form)
-                {
-                    self.form = form;
-                    [self configureForm];
-                    [self.tableView reloadData];
-                }
-                else
-                {
-                    // create an error alert
-                    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Form Load Failed"
-                                                                              message:[error localizedDescription]
-                                                                             delegate:nil
-                                                                    cancelButtonTitle:@"OK"
-                                                                    otherButtonTitles:nil, nil];
-                    
-                    // show error alert on the main thread
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [errorAlert show];
-                    });
-                }
-            }];
-        }
+        [self.dataSource formViewController:self loadFormWithCompletionBlock:^(AlfrescoForm *form, NSError *error) {
+            if (form)
+            {
+                self.form = form;
+                [self configureForm];
+                [self.tableView reloadData];
+            }
+            else
+            {
+                // create an error alert
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Form Load Failed"
+                                                                          message:[error localizedDescription]
+                                                                         delegate:nil
+                                                                cancelButtonTitle:@"OK"
+                                                                otherButtonTitles:nil, nil];
+                
+                // show error alert on the main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [errorAlert show];
+                });
+            }
+        }];
     }
-    else
+    else if ([self.dataSource respondsToSelector:@selector(formForFormViewController:)])
     {
-        if ([self.formView.dataSource respondsToSelector:@selector(formForFormView:)])
-        {
-            self.form = [self.formView.dataSource formForFormView:self.formView];
-            [self configureForm];
-        }
+        self.form = [self.dataSource formForFormViewController:self];
+        [self configureForm];
     }
 }
 
@@ -168,7 +159,7 @@
 
 #pragma mark - Form view data source
 
-- (AlfrescoForm *)formForFormView:(AlfrescoFormView *)formView
+- (AlfrescoForm *)formForFormViewController:(AlfrescoFormViewController *)formViewController
 {
     // return an empty form by default
     return [AlfrescoForm new];
@@ -270,22 +261,24 @@
 
 - (void)doneButtonClicked:(id)sender
 {
-    // TODO: call the willEndEditing first
+    BOOL allowEditingToEnd = YES;
     
-    if ([self.formView.delegate respondsToSelector:@selector(formView:didEndEditingOfForm:withOutcome:)])
+    // TODO: implement the outcomes
+    
+    if ([self.delegate respondsToSelector:@selector(formViewController:willEndEditingWithOutcome:)])
     {
-        [self.formView.delegate formView:self.formView didEndEditingOfForm:self.form withOutcome:nil];
+        allowEditingToEnd = [self.delegate formViewController:self willEndEditingWithOutcome:nil];
+    }
+    
+    if (allowEditingToEnd && [self.delegate respondsToSelector:@selector(formViewController:didEndEditingWithOutcome:)])
+    {
+        [self.delegate formViewController:self didEndEditingWithOutcome:nil];
     }
 }
 
 - (void)evaluateDoneButtonState
 {
     BOOL isFormValid = self.form.valid;
-    
-    if (isFormValid && [self.formView.delegate respondsToSelector:@selector(formView:canPersistForm:)])
-    {
-        isFormValid = [self.formView.delegate formView:self.formView canPersistForm:self.form];
-    }
     
     // if form is not valid disable the done button
     self.navigationItem.rightBarButtonItem.enabled = isFormValid;

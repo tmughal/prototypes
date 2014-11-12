@@ -40,7 +40,7 @@
 
 #pragma mark - Form view data source
 
-- (void)formView:(AlfrescoFormView *)formView loadFormWithCompletionBlock:(AlfrescoFormCompletionBlock)completionBlock
+- (void)formViewController:(AlfrescoFormViewController *)formViewController loadFormWithCompletionBlock:(AlfrescoFormCompletionBlock)completionBlock
 {
     NSString *appAuthUrl = [self.appURL.absoluteString stringByAppendingString:@"/authentication"];
     
@@ -104,12 +104,12 @@
 
 #pragma mark - Form view delegate
 
-- (void)formView:(AlfrescoFormView *)formView didEndEditingOfForm:(AlfrescoForm *)form withOutcome:(NSString *)outcome
+- (void)formViewController:(AlfrescoFormViewController *)formViewController didEndEditingWithOutcome:(NSString *)outcome
 {
     NSLog(@"Persisting task form...");
     
     NSMutableDictionary *values = [NSMutableDictionary dictionary];
-    for (AlfrescoFormField *field in form.fields)
+    for (AlfrescoFormField *field in formViewController.form.fields)
     {
         if (field.value != nil)
         {

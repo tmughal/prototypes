@@ -14,7 +14,7 @@
 
 #pragma mark - Form view data source
 
-- (AlfrescoForm *)formForFormView:(AlfrescoFormView *)formView
+- (AlfrescoForm *)formForFormViewController:(AlfrescoFormViewController *)formViewController
 {
     AlfrescoFormField *usernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"username" type:AlfrescoFormFieldTypeString value:@"admin@app.activiti.com" label:@"Username"];
     [usernameField addConstraint:[AlfrescoFormMandatoryConstraint new]];
@@ -38,8 +38,9 @@
 
 #pragma mark - Form view delegate
 
-- (void)formView:(AlfrescoFormView *)formView didEndEditingOfForm:(AlfrescoForm *)form withOutcome:(NSString *)outcome
+- (void)formViewController:(AlfrescoFormViewController *)formViewController didEndEditingWithOutcome:(NSString *)outcome
 {
+    AlfrescoForm *form = formViewController.form;
     NSString *username = [form fieldWithIdentifier:@"username"].value;
     NSString *password = [form fieldWithIdentifier:@"password"].value;
     NSString *appUrl = [form fieldWithIdentifier:@"appUrl"].value;
@@ -49,7 +50,6 @@
                                                                                                username:username
                                                                                                password:password
                                                                                                  appURL:[NSURL URLWithString:appUrl]];
-    taskFormVC.loadFormAsynchronously = YES;
     
     // push view controller
     [self.navigationController pushViewController:taskFormVC animated:YES];
