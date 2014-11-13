@@ -12,6 +12,7 @@
 #import "AddBenchmarkTestFormViewController.h"
 #import "EditBenchmarkPropertiesFormViewController.h"
 #import "RetrieveActivitiTaskFormViewController.h"
+#import "AdvancedFormViewController.h"
 
 @implementation ExamplesViewController
 
@@ -33,7 +34,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -63,6 +64,10 @@
     {
         cell.textLabel.text = @"Activiti Task";
     }
+    else if (indexPath.row == 4)
+    {
+        cell.textLabel.text = @"Advanced";
+    }
     
     return cell;
 }
@@ -86,6 +91,10 @@
     else if (indexPath.row == 3)
     {
         viewController = [RetrieveActivitiTaskFormViewController new];
+    }
+    else if (indexPath.row == 4)
+    {
+        viewController = [AdvancedFormViewController new];
     }
     
     [self.navigationController pushViewController:viewController animated:YES];

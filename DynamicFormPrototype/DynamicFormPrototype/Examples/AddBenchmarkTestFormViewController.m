@@ -39,6 +39,16 @@
 
 #pragma mark - Form view delegate
 
+- (BOOL)shouldShowCancelButtonForFormViewContoller:(AlfrescoFormViewController *)formViewController
+{
+    return YES;
+}
+
+- (void)didCancelEditingOfFormViewController:(AlfrescoFormViewController *)formViewController
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (void)formViewController:(AlfrescoFormViewController *)formViewController didEndEditingWithOutcome:(NSString *)outcome
 {
     NSLog(@"Finished editing form: %@", formViewController.form);

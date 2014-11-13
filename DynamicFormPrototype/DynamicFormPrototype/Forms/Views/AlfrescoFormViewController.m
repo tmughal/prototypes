@@ -43,7 +43,7 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(evaluateDoneButtonState)
+                                             selector:@selector(evaluateOutcomeButtonState)
                                                  name:kAlfrescoFormFieldChangedNotification
                                                object:nil];
 }
@@ -87,10 +87,49 @@
 
 - (void)configureForm
 {
-    // Add done button
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                                           target:self
-                                                                                           action:@selector(doneButtonClicked:)];
+    // add the required outcome buttons
+    if (self.form.outcomes.count > 0)
+    {
+        NSMutableArray *buttons = [NSMutableArray array];
+        
+        // add a button for each outcome
+        for (int x = 0; x < self.form.outcomes.count; x++)
+        {
+            NSString *outcome = [self.form.outcomes objectAtIndex:x];
+            
+            UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:outcome
+                                                                       style:UIBarButtonItemStyleDone
+                                                                      target:self
+                                                                      action:@selector(outcomeButtonTapped:)];
+            
+            // tag the button so we can identify which one got tapped later on
+            button.tag = x;
+            
+            // add button to array
+            [buttons addObject:button];
+        }
+        
+        // add all the buttons
+        self.navigationItem.rightBarButtonItems = buttons;
+    }
+    else
+    {
+        // add a single done button
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                               target:self
+                                                                                               action:@selector(outcomeButtonTapped:)];
+    }
+    
+    // add a cancel button, if required
+    if ([self.delegate respondsToSelector:@selector(shouldShowCancelButtonForFormViewContoller:)])
+    {
+        if ([self.delegate shouldShowCancelButtonForFormViewContoller:self])
+        {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                                  target:self
+                                                                                                  action:@selector(cancelButtonTapped:)];
+        }
+    }
     
     // set form title
     self.title = self.form.title;
@@ -146,8 +185,8 @@
         }
     }
     
-    // set the state of the done button
-    [self evaluateDoneButtonState];
+    // set the state of the outcome button
+    [self evaluateOutcomeButtonState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -259,29 +298,59 @@
 
 #pragma mark - Event handlers
 
-- (void)doneButtonClicked:(id)sender
+- (void)outcomeButtonTapped:(id)sender
 {
+    NSString *outcomeTapped = nil;
     BOOL allowEditingToEnd = YES;
     
-    // TODO: implement the outcomes
+    if (self.form.outcomes.count > 0)
+    {
+        // outcomes are present so determine which button was tapped
+        outcomeTapped = [self.form.outcomes objectAtIndex:((UIBarButtonItem *)sender).tag];
+    }
     
     if ([self.delegate respondsToSelector:@selector(formViewController:willEndEditingWithOutcome:)])
     {
-        allowEditingToEnd = [self.delegate formViewController:self willEndEditingWithOutcome:nil];
+        allowEditingToEnd = [self.delegate formViewController:self willEndEditingWithOutcome:outcomeTapped];
     }
     
     if (allowEditingToEnd && [self.delegate respondsToSelector:@selector(formViewController:didEndEditingWithOutcome:)])
     {
-        [self.delegate formViewController:self didEndEditingWithOutcome:nil];
+        [self.delegate formViewController:self didEndEditingWithOutcome:outcomeTapped];
     }
 }
 
-- (void)evaluateDoneButtonState
+- (void)cancelButtonTapped:(id)sender
+{
+    BOOL allowCancel = YES;
+    
+    if ([self.delegate respondsToSelector:@selector(willCancelEditingOfFormViewController:)])
+    {
+        allowCancel = [self.delegate willCancelEditingOfFormViewController:self];
+    }
+    
+    if (allowCancel && [self.delegate respondsToSelector:@selector(didCancelEditingOfFormViewController:)])
+    {
+        [self.delegate didCancelEditingOfFormViewController:self];
+    }
+}
+
+- (void)evaluateOutcomeButtonState
 {
     BOOL isFormValid = self.form.valid;
     
-    // if form is not valid disable the done button
-    self.navigationItem.rightBarButtonItem.enabled = isFormValid;
+    // if form is not valid disable the outcome button(s)
+    if (self.form.outcomes.count > 0)
+    {
+        for (UIBarButtonItem *button in self.navigationItem.rightBarButtonItems)
+        {
+            button.enabled = isFormValid;
+        }
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem.enabled = isFormValid;
+    }
 }
 
 #pragma mark - Helper methods

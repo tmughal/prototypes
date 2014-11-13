@@ -25,7 +25,7 @@
     self = [super init];
     if (self)
     {
-        // TODO: Assert the required parameters are not nil
+        NSAssert(groups, @"groups parameter must be provided.");
         
         self.groups = groups;
         self.title = title;

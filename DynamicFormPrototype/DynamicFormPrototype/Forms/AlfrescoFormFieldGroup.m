@@ -30,7 +30,8 @@
     self = [super init];
     if (self)
     {
-        // TODO: Assert the required parameters are not nil
+        NSAssert(identifier, @"identifier parameter must be provided.");
+        NSAssert(fields, @"fields parameter must be provided.");
         
         self.identifier = identifier;
         self.fields = fields;
