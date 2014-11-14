@@ -33,11 +33,6 @@
 @property (nonatomic, strong, readonly) NSArray *outcomes;
 
 /**
- Indicates whether the form in it's current state is valid
- */
-@property (nonatomic, assign, readonly, getter = isValid) BOOL valid;
-
-/**
  Creates an AlfrescoForm object with the given groups and title
  */
 - (instancetype)initWithGroups:(NSArray *)groups title:(NSString *)title;

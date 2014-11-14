@@ -47,26 +47,6 @@
     return fields;
 }
 
-- (BOOL)isValid
-{
-    // iterate round all fields and check their constraints, if they all pass the form is valid.
-    for (AlfrescoFormField *field in self.fields)
-    {
-        // evaluate all constraints for the field
-        for (AlfrescoFormConstraint *constraint in field.constraints)
-        {
-            NSLog(@"Evaluating %@ constraint for field %@", constraint.identifier, field.identifier);
-            
-            if (![constraint evaluate:field.value])
-            {
-                return NO;
-            }
-        }
-    }
-    
-    return YES;
-}
-
 - (AlfrescoFormFieldGroup *)groupWithIdentifier:(NSString *)identifier
 {
     // TODO: store groups in a dictionary to avoid loop below.

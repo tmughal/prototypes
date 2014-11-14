@@ -13,6 +13,7 @@ extern NSString * const kAlfrescoFormControlParameterCustomClassName;
 extern NSString * const kAlfrescoFormControlParameterAllowReset;
 extern NSString * const kAlfrescoFormControlParameterAllowDecimals;
 extern NSString * const kAlfrescoFormControlParameterShowBorder;
+extern NSString * const kAlfrescoFormControlParameterTextAlignment;
 
 typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
 {

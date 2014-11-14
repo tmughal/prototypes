@@ -31,6 +31,7 @@
         self.detailTextLabel.text = [dateFormatter stringFromDate:date];
     }
     
+    self.detailTextLabel.font = [UIFont systemFontOfSize:14];
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     self.selectable = YES;
 }

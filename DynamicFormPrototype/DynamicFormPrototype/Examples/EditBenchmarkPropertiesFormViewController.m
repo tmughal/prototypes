@@ -15,7 +15,9 @@
 
 - (AlfrescoForm *)formForFormViewController:(AlfrescoFormViewController *)formViewController
 {
-    NSDictionary *commonControlParameters = @{kAlfrescoFormControlParameterAllowReset: @YES, kAlfrescoFormControlParameterShowBorder: @YES};
+    NSDictionary *commonControlParameters = @{kAlfrescoFormControlParameterAllowReset: @YES,
+                                              kAlfrescoFormControlParameterShowBorder: @YES,
+                                              kAlfrescoFormControlParameterTextAlignment: @"right"};
     
     // general fields
     AlfrescoFormField *processUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"processusername" type:AlfrescoFormFieldTypeString value:@"user" label:@"Process User"];
@@ -39,7 +41,8 @@
     processDelayField.placeholderText = @"0.5";
     processDelayField.controlParameters = @{kAlfrescoFormControlParameterAllowDecimals: @YES,
                                             kAlfrescoFormControlParameterAllowReset: @YES,
-                                            kAlfrescoFormControlParameterShowBorder: @YES};
+                                            kAlfrescoFormControlParameterShowBorder: @YES,
+                                            kAlfrescoFormControlParameterTextAlignment: @"right"};
     
     // mongo DB fields
     AlfrescoFormField *mongoUsernameField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongousername" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.username"];

@@ -26,7 +26,7 @@
                                                                                 fields:@[nameField, descriptionField]
                                                                                  label:nil];
     
-    return [[AlfrescoForm alloc] initWithGroups:@[group] title:@"Advanced" outcomes:@[@"Approve", @"Reject"]];
+    return [[AlfrescoForm alloc] initWithGroups:@[group] title:@"Advanced" outcomes:@[@"Reject", @"Accept"]];
 }
 
 #pragma mark - Form view delegate

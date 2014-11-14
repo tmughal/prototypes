@@ -27,6 +27,17 @@
         self.textField.text = self.field.value;
     }
     
+    // set text alignment
+    self.textField.textAlignment = NSTextAlignmentLeft;
+    if (self.field.controlParameters[kAlfrescoFormControlParameterTextAlignment])
+    {
+        NSString *alignement = self.field.controlParameters[kAlfrescoFormControlParameterTextAlignment];
+        if ([alignement isEqualToString:@"right"])
+        {
+            self.textField.textAlignment = NSTextAlignmentRight;
+        }
+    }
+    
     // setup keyboard type, if necessary
     if (self.field.type == AlfrescoFormFieldTypeNumber)
     {
@@ -64,12 +75,12 @@
     
     if (self.field.controlParameters[kAlfrescoFormControlParameterAllowReset])
     {
-        [self.textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     }
     
     if (self.field.controlParameters[kAlfrescoFormControlParameterShowBorder])
     {
-        [self.textField setBorderStyle:UITextBorderStyleRoundedRect];
+        self.textField.borderStyle = UITextBorderStyleRoundedRect;
     }
     
     // setup event handler

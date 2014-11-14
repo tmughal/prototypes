@@ -28,9 +28,9 @@
     passwordField.secret = YES;
     passwordField.placeholderText = requiredString;
     
-    AlfrescoFormField *serverField = [[AlfrescoFormField alloc] initWithIdentifier:@"server" type:AlfrescoFormFieldTypeString value:nil label:@"Server Address"];
-    [serverField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    serverField.placeholderText = requiredString;
+    AlfrescoFormField *hostField = [[AlfrescoFormField alloc] initWithIdentifier:@"host" type:AlfrescoFormFieldTypeString value:nil label:@"Host"];
+    [hostField addConstraint:[AlfrescoFormMandatoryConstraint new]];
+    hostField.placeholderText = requiredString;
     
     AlfrescoFormField *descriptionField = [[AlfrescoFormField alloc] initWithIdentifier:@"description" type:AlfrescoFormFieldTypeString value:nil label:@"Description"];
     descriptionField.placeholderText = @"Alfresco Server";
@@ -45,13 +45,13 @@
     [portField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     
     AlfrescoFormField *serviceDocField = [[AlfrescoFormField alloc] initWithIdentifier:@"serviceDocument" type:AlfrescoFormFieldTypeString value:@"/alfresco" label:@"Service Document"];
-    [serverField addConstraint:[AlfrescoFormMandatoryConstraint new]];
+    [serviceDocField addConstraint:[AlfrescoFormMandatoryConstraint new]];
     
     AlfrescoFormField *clientCertField = [[AlfrescoFormField alloc] initWithIdentifier:@"clientCertificate" type:AlfrescoFormFieldTypeCustom value:@"Custom Field" label:@"Client Certificate"];
     
     // account details group
     AlfrescoFormFieldGroup *accountGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"accountdetails"
-                                                                                       fields:@[usernameField, passwordField, serverField, descriptionField, httpsField]
+                                                                                       fields:@[usernameField, passwordField, hostField, descriptionField, httpsField]
                                                                                         label:@"Account Details"];
     
     // settings group

@@ -13,6 +13,7 @@ NSString * const kAlfrescoFormControlParameterCustomClassName = @"org.alfresco.m
 NSString * const kAlfrescoFormControlParameterAllowReset = @"org.alfresco.mobile.form.control.allowreset";
 NSString * const kAlfrescoFormControlParameterAllowDecimals = @"org.alfresco.mobile.form.control.allowdecimals";
 NSString * const kAlfrescoFormControlParameterShowBorder = @"org.alfresco.mobile.form.control.showborder";
+NSString * const kAlfrescoFormControlParameterTextAlignment = @"org.alfresco.mobile.form.control.textalignment";
 
 @interface AlfrescoFormField ()
 @property (nonatomic, strong, readwrite) NSString *identifier;

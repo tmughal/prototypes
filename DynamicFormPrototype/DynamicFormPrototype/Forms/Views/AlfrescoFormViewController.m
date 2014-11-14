@@ -43,7 +43,7 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(evaluateOutcomeButtonState)
+                                             selector:@selector(evaluateFormState)
                                                  name:kAlfrescoFormFieldChangedNotification
                                                object:nil];
 }
@@ -171,6 +171,7 @@
                 formCell = [[AlfrescoFormCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
                 formCell.label = ((UITableViewCell*)formCell).textLabel;
                 ((UITableViewCell*)formCell).detailTextLabel.text = [field.value description];
+                ((UITableViewCell*)formCell).detailTextLabel.font = [UIFont systemFontOfSize:14];
             }
             else
             {
@@ -186,7 +187,7 @@
     }
     
     // set the state of the outcome button
-    [self evaluateOutcomeButtonState];
+    [self evaluateFormState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -241,7 +242,7 @@
     }
     else
     {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadingCell"];
         cell.textLabel.text = @"Loading Form...";
         return cell;
     }
@@ -296,6 +297,11 @@
     [formCell didSelectCellWithNavigationController:self.navigationController];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
+}
+
 #pragma mark - Event handlers
 
 - (void)outcomeButtonTapped:(id)sender
@@ -335,9 +341,44 @@
     }
 }
 
-- (void)evaluateOutcomeButtonState
+- (void)evaluateFormState
 {
-    BOOL isFormValid = self.form.valid;
+    BOOL isFormValid = YES;
+    
+    UIImage *image = [UIImage imageNamed:@"validation-error"];
+    
+    // iterate round all fields and check their constraints, if they all pass the form is valid.
+    for (AlfrescoFormField *field in self.form.fields)
+    {
+        // evaluate all constraints for the field
+        for (AlfrescoFormConstraint *constraint in field.constraints)
+        {
+            // retrieve the cell for the current field
+            AlfrescoFormCell *cell = self.cells[field.identifier];
+            
+            NSLog(@"Evaluating %@ constraint for field %@", constraint.identifier, field.identifier);
+            
+            if ([constraint evaluate:field.value])
+            {
+                if (!cell.selectable)
+                {
+                    cell.accessoryView = nil;
+                }
+            }
+            else
+            {
+                isFormValid = NO;
+                
+                if (!cell.selectable)
+                {
+                    // show validation error marker
+                    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                    cell.accessoryView = imageView;
+                    cell.detailTextLabel.text = @"Validation error";
+                }
+            }
+        }
+    }
     
     // if form is not valid disable the outcome button(s)
     if (self.form.outcomes.count > 0)
