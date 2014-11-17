@@ -14,9 +14,12 @@
 {
     [super configureCell];
     
-    // allow the cell to be selected
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    self.selectable = YES;
+    // allow the cell to be selected, if the field is not read only
+    if (!self.field.readOnly)
+    {
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.selectable = YES;
+    }
 }
 
 @end

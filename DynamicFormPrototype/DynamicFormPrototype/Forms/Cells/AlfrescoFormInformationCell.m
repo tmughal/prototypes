@@ -22,6 +22,7 @@
     
     [super configureCell];
     
+    // configure the value, allows for subclasses to override
     [self configureCellValue];
     
     // set font for value
@@ -32,7 +33,14 @@
 {
     if (self.field.value != nil)
     {
-        self.detailTextLabel.text = self.field.value;
+        if (self.field.type == AlfrescoFormFieldTypeNumber)
+        {
+            self.detailTextLabel.text = [self.field.value stringValue];
+        }
+        else
+        {
+            self.detailTextLabel.text = self.field.value;
+        }
     }
 }
 

@@ -149,14 +149,21 @@
             if (field.type == AlfrescoFormFieldTypeString || field.type == AlfrescoFormFieldTypeNumber ||
                 field.type == AlfrescoFormFieldTypeEmail || field.type == AlfrescoFormFieldTypeURL)
             {
-                AlfrescoFormConstraint *constraint = [field constraintWithIdentifier:kAlfrescoFormConstraintListOfValues];
-                if (constraint != nil)
+                if (field.readOnly)
                 {
-                    formCell = [AlfrescoFormListOfValuesCell new];
+                    formCell = [AlfrescoFormInformationCell new];
                 }
                 else
                 {
-                    formCell = [AlfrescoFormTextCell new];
+                    AlfrescoFormConstraint *constraint = [field constraintWithIdentifier:kAlfrescoFormConstraintListOfValues];
+                    if (constraint != nil)
+                    {
+                        formCell = [AlfrescoFormListOfValuesCell new];
+                    }
+                    else
+                    {
+                        formCell = [AlfrescoFormTextCell new];
+                    }
                 }
             }
             else if (field.type == AlfrescoFormFieldTypeBoolean)

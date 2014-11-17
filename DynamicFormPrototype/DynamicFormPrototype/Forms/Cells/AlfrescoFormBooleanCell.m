@@ -22,7 +22,16 @@
     
     BOOL on = [self.field.value boolValue];
     self.switchControl.on = on;
-    [self.switchControl addTarget:self action:@selector(fieldEdited:) forControlEvents:UIControlEventValueChanged];
+    
+    // disable if the field is readonly
+    if (self.field.readOnly)
+    {
+        self.switchControl.enabled = NO;
+    }
+    else
+    {
+        [self.switchControl addTarget:self action:@selector(fieldEdited:) forControlEvents:UIControlEventValueChanged];
+    }
 }
 
 - (void)fieldEdited:(id)sender

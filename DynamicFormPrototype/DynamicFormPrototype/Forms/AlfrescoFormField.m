@@ -37,6 +37,7 @@ NSString * const kAlfrescoFormControlParameterSecret = @"org.alfresco.mobile.for
         self.value = value;
         self.originalValue = self.value;
         self.label = label;
+        self.readOnly = NO;
         
         // check for NSNull
         if ([self.value isKindOfClass:[NSNull class]])

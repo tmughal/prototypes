@@ -21,7 +21,6 @@
     [super configureCell];
     
     // set text field value
-    // TODO: deal with default values
     if (self.field.type == AlfrescoFormFieldTypeNumber)
     {
         self.textField.text = [self.field.value stringValue];
@@ -42,53 +41,63 @@
         }
     }
     
-    // setup keyboard type, if necessary
-    if (self.field.type == AlfrescoFormFieldTypeNumber)
-    {
-        if (self.field.controlParameters[kAlfrescoFormControlParameterAllowDecimals])
-        {
-            [self.textField setKeyboardType:UIKeyboardTypeDecimalPad];
-        }
-        else
-        {
-            [self.textField setKeyboardType:UIKeyboardTypeNumberPad];
-        }
-    }
-    else if (self.field.type == AlfrescoFormFieldTypeEmail)
-    {
-        [self.textField setKeyboardType:UIKeyboardTypeEmailAddress];
-    }
-    else if (self.field.type == AlfrescoFormFieldTypeURL)
-    {
-        [self.textField setKeyboardType:UIKeyboardTypeURL];
-    }
-    
-    // set other text field options
-    self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-
+    // set placeholder text
     if (self.field.placeholderText != nil)
     {
         self.textField.placeholder = self.field.placeholderText;
     }
     
-    if (self.field.controlParameters[kAlfrescoFormControlParameterSecret])
-    {
-        self.textField.secureTextEntry = YES;
-    }
-    
-    if (self.field.controlParameters[kAlfrescoFormControlParameterAllowReset])
-    {
-        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    }
-    
+    // set border style
     if (self.field.controlParameters[kAlfrescoFormControlParameterShowBorder])
     {
         self.textField.borderStyle = UITextBorderStyleRoundedRect;
     }
     
-    // setup event handler
-    [self.textField addTarget:self action:@selector(fieldEdited:) forControlEvents:UIControlEventEditingChanged];
+    // disable if the field is readonly
+    if (self.field.readOnly)
+    {
+        self.textField.enabled = NO;
+    }
+    else
+    {
+        // setup keyboard type, if necessary
+        if (self.field.type == AlfrescoFormFieldTypeNumber)
+        {
+            if (self.field.controlParameters[kAlfrescoFormControlParameterAllowDecimals])
+            {
+                [self.textField setKeyboardType:UIKeyboardTypeDecimalPad];
+            }
+            else
+            {
+                [self.textField setKeyboardType:UIKeyboardTypeNumberPad];
+            }
+        }
+        else if (self.field.type == AlfrescoFormFieldTypeEmail)
+        {
+            [self.textField setKeyboardType:UIKeyboardTypeEmailAddress];
+        }
+        else if (self.field.type == AlfrescoFormFieldTypeURL)
+        {
+            [self.textField setKeyboardType:UIKeyboardTypeURL];
+        }
+        
+        // set other text field options
+        self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        
+        if (self.field.controlParameters[kAlfrescoFormControlParameterSecret])
+        {
+            self.textField.secureTextEntry = YES;
+        }
+        
+        if (self.field.controlParameters[kAlfrescoFormControlParameterAllowReset])
+        {
+            self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        }
+        
+        // setup event handler
+        [self.textField addTarget:self action:@selector(fieldEdited:) forControlEvents:UIControlEventEditingChanged];
+    }
 }
 
 - (void)fieldEdited:(id)sender

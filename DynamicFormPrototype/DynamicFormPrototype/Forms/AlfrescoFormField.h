@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) id value;
+@property (nonatomic, assign, getter = isReadOnly) BOOL readOnly;
 @property (nonatomic, strong) NSDictionary *controlParameters;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier type:(AlfrescoFormFieldType)type value:(id)value label:(NSString *)label;
