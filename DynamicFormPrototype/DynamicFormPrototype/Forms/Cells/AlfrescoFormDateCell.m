@@ -14,15 +14,8 @@
 
 @implementation AlfrescoFormDateCell
 
-- (void)configureCell
+- (void)configureCellValue
 {
-    // as we're using the built-in style for date cells, link up the labels
-    self.label = self.textLabel;
-    
-    [super configureCell];
-    
-    NSLog(@"Configuring date cell for field %@", self.field.identifier);
-    
     NSDate *date = self.field.value;
     if (date != nil)
     {
@@ -30,10 +23,6 @@
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         self.detailTextLabel.text = [dateFormatter stringFromDate:date];
     }
-    
-    self.detailTextLabel.font = [UIFont systemFontOfSize:14];
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    self.selectable = YES;
 }
 
 - (void)didSelectCellWithNavigationController:(UINavigationController *)navigationController

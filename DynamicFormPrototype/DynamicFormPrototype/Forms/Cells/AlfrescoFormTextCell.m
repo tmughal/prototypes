@@ -10,11 +10,15 @@
 
 @implementation AlfrescoFormTextCell
 
+- (instancetype)init
+{
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlfrescoFormTextCell" owner:self options:nil];
+    return [nib lastObject];
+}
+
 - (void)configureCell
 {
     [super configureCell];
-    
-    NSLog(@"Configuring text cell for field %@", self.field.identifier);
     
     // set text field value
     // TODO: deal with default values

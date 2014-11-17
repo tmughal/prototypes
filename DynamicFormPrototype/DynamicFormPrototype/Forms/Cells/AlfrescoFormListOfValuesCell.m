@@ -15,26 +15,6 @@
 
 @implementation AlfrescoFormListOfValuesCell
 
-- (void)configureCell
-{
-    // as we're using the built-in style for list of values cells, link up the labels
-    self.label = self.textLabel;
-    
-    [super configureCell];
-    
-    NSLog(@"Configuring list of values cell for field %@", self.field.identifier);
-    
-    if (self.field.value != nil)
-    {
-        self.detailTextLabel.text = self.field.value;
-    }
-    
-    self.detailTextLabel.font = [UIFont systemFontOfSize:14];
-    
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    self.selectable = YES;
-}
-
 - (void)didSelectCellWithNavigationController:(UINavigationController *)navigationController
 {
     // find the list of values constraint

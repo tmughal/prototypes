@@ -10,11 +10,15 @@
 
 @implementation AlfrescoFormBooleanCell
 
+- (instancetype)init
+{
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlfrescoFormBooleanCell" owner:self options:nil];
+    return [nib lastObject];
+}
+
 - (void)configureCell
 {
     [super configureCell];
-    
-    NSLog(@"Configuring boolean cell for field %@", self.field.identifier);
     
     BOOL on = [self.field.value boolValue];
     self.switchControl.on = on;

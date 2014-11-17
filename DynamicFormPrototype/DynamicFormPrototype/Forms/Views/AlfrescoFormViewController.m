@@ -11,6 +11,9 @@
 #import "AlfrescoFormCell.h"
 #import "AlfrescoFormDateCell.h"
 #import "AlfrescoFormListOfValuesCell.h"
+#import "AlfrescoFormInformationCell.h"
+#import "AlfrescoFormBooleanCell.h"
+#import "AlfrescoFormTextCell.h"
 #import "AlfrescoFormListOfValuesConstraint.h"
 
 @interface AlfrescoFormViewController ()
@@ -136,6 +139,7 @@
     
     self.cells = [NSMutableDictionary dictionary];
     
+    // create a cell for each field in the form
     for (AlfrescoFormFieldGroup *group in self.form.groups)
     {
         for (AlfrescoFormField *field in group.fields)
@@ -148,30 +152,25 @@
                 AlfrescoFormConstraint *constraint = [field constraintWithIdentifier:kAlfrescoFormConstraintListOfValues];
                 if (constraint != nil)
                 {
-                    formCell = [[AlfrescoFormListOfValuesCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    formCell = [AlfrescoFormListOfValuesCell new];
                 }
                 else
                 {
-                    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlfrescoFormTextCell" owner:self options:nil];
-                    formCell = [nib lastObject];
+                    formCell = [AlfrescoFormTextCell new];
                 }
             }
             else if (field.type == AlfrescoFormFieldTypeBoolean)
             {
-                NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlfrescoFormBooleanCell" owner:self options:nil];
-                formCell = [nib lastObject];
+                formCell = [AlfrescoFormBooleanCell new];
             }
             else if (field.type == AlfrescoFormFieldTypeDate || field.type == AlfrescoFormFieldTypeDateTime)
             {
-                formCell = [[AlfrescoFormDateCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                formCell = [AlfrescoFormDateCell new];
             }
             else if (field.type == AlfrescoFormFieldTypeCustom)
             {
-                // temporarily create a basic cell to show the label and value
-                formCell = [[AlfrescoFormCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-                formCell.label = ((UITableViewCell*)formCell).textLabel;
-                ((UITableViewCell*)formCell).detailTextLabel.text = [field.value description];
-                ((UITableViewCell*)formCell).detailTextLabel.font = [UIFont systemFontOfSize:14];
+                // temporarily create an information cell for custom fields
+                formCell = [AlfrescoFormInformationCell new];
             }
             else
             {
@@ -186,7 +185,7 @@
         }
     }
     
-    // set the state of the outcome button
+    // set the state of the form
     [self evaluateFormState];
 }
 
@@ -211,7 +210,7 @@
 {
     if (self.form)
     {
-        // Return the number of sections, will equal the number of groups
+        // Return the number of groups
         return self.form.groups.count;
     }
     else
@@ -224,7 +223,7 @@
 {
     if (self.form)
     {
-        // Return the number of rows in the section, will be the number of fields in the group.
+        // Return the number of fields in the group.
         AlfrescoFormFieldGroup *group = self.form.groups[section];
         return group.fields.count;
     }

@@ -6,10 +6,9 @@
 //  Copyright (c) 2014 Gavin Cornwell. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "AlfrescoFormCell.h"
+#import "AlfrescoFormPickerCell.h"
 #import "AlfrescoDatePickerViewController.h"
 
-@interface AlfrescoFormDateCell : AlfrescoFormCell <AlfrescoDatePickerDelegate>
+@interface AlfrescoFormDateCell : AlfrescoFormPickerCell <AlfrescoDatePickerDelegate>
 
 @end

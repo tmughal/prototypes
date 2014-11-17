@@ -21,7 +21,7 @@ NSString * const kAlfrescoFormFieldChangedNotification = @"AlfrescoFormFieldChan
 
 - (void)configureCell
 {
-    // TODO: investigate making this an internal protected method, category?
+    NSLog(@"Configuring cell for field %@", self.field.identifier);
     
     if (self.field.required)
     {
@@ -31,7 +31,8 @@ NSString * const kAlfrescoFormFieldChangedNotification = @"AlfrescoFormFieldChan
     {
         self.label.text = self.field.label;
     }
-    
+
+    // cells are not selectable by default
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.selectable = NO;
 }

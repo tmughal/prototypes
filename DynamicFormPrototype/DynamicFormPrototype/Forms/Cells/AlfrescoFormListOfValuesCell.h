@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Gavin Cornwell. All rights reserved.
 //
 
-#import "AlfrescoFormCell.h"
+#import "AlfrescoFormPickerCell.h"
 #import "AlfrescoListOfValuesPickerViewController.h"
 
-@interface AlfrescoFormListOfValuesCell : AlfrescoFormCell <AlfrescoListOfValuesPickerDelegate>
+@interface AlfrescoFormListOfValuesCell : AlfrescoFormPickerCell <AlfrescoListOfValuesPickerDelegate>
 
 @end
