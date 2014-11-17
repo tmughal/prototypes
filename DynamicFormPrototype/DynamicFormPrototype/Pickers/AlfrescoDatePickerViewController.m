@@ -40,7 +40,15 @@
                                                                             target:self
                                                                             action:@selector(showAndSelectToday:)];
     
-    self.datePicker.datePickerMode = UIDatePickerModeDate;
+    if (self.showTime)
+    {
+        self.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    }
+    else
+    {
+        self.datePicker.datePickerMode = UIDatePickerModeDate;
+    }
+        
     if (self.originalDate != nil)
     {
         self.datePicker.date = self.originalDate;

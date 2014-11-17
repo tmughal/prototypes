@@ -11,4 +11,6 @@
 
 @interface AlfrescoFormDateCell : AlfrescoFormPickerCell <AlfrescoDatePickerDelegate>
 
+@property (nonatomic, assign) BOOL showTime;
+
 @end

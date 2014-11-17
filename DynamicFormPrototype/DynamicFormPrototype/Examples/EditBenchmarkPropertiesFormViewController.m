@@ -80,8 +80,14 @@
     // scheduling fields
     double seconds = [[NSDate date] timeIntervalSince1970] - 86400;
     NSDate *pastDate = [NSDate dateWithTimeIntervalSince1970:seconds];
-    AlfrescoFormField *startOnField = [[AlfrescoFormField alloc] initWithIdentifier:@"starton" type:AlfrescoFormFieldTypeDate value:pastDate label:@"Start On"];
-    AlfrescoFormField *dueByField = [[AlfrescoFormField alloc] initWithIdentifier:@"dueby" type:AlfrescoFormFieldTypeDateTime value:[NSDate date] label:@"Due By"];
+    AlfrescoFormField *startOnField = [[AlfrescoFormField alloc] initWithIdentifier:@"starton"
+                                                                               type:AlfrescoFormFieldTypeDateTime
+                                                                              value:pastDate
+                                                                              label:@"Start On"];
+    AlfrescoFormField *dueByField = [[AlfrescoFormField alloc] initWithIdentifier:@"dueby"
+                                                                             type:AlfrescoFormFieldTypeDate
+                                                                            value:[NSDate date]
+                                                                            label:@"Due By"];
     
     // groups
     AlfrescoFormFieldGroup *generalGroup = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"general"

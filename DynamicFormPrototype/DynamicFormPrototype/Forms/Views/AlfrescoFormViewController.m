@@ -170,9 +170,14 @@
             {
                 formCell = [AlfrescoFormBooleanCell new];
             }
-            else if (field.type == AlfrescoFormFieldTypeDate || field.type == AlfrescoFormFieldTypeDateTime)
+            else if (field.type == AlfrescoFormFieldTypeDate)
             {
                 formCell = [AlfrescoFormDateCell new];
+            }
+            else if (field.type == AlfrescoFormFieldTypeDateTime)
+            {
+                formCell = [AlfrescoFormDateCell new];
+                ((AlfrescoFormDateCell *)formCell).showTime = YES;
             }
             else if (field.type == AlfrescoFormFieldTypeCustom)
             {

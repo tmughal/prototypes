@@ -18,6 +18,7 @@
 
 @property (nonatomic, weak) IBOutlet UIDatePicker *datePicker;
 @property (nonatomic, weak) id<AlfrescoDatePickerDelegate> delegate;
+@property (nonatomic, assign) BOOL showTime;
 
 - (instancetype)initWithDate:(NSDate *)date;
 

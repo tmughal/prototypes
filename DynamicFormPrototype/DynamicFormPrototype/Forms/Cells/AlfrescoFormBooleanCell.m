@@ -12,7 +12,7 @@
 
 - (instancetype)init
 {
-    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AlfrescoFormBooleanCell" owner:self options:nil];
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
     return [nib lastObject];
 }
 

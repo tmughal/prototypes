@@ -16,19 +16,15 @@
 
 - (void)configureCellValue
 {
-    NSDate *date = self.field.value;
-    if (date != nil)
-    {
-        NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        self.detailTextLabel.text = [dateFormatter stringFromDate:date];
-    }
+    [self renderValue];
 }
 
 - (void)didSelectCellWithNavigationController:(UINavigationController *)navigationController
 {
     AlfrescoDatePickerViewController *datePickerVC = [[AlfrescoDatePickerViewController alloc] initWithDate:self.field.value];
     datePickerVC.delegate = self;
+    datePickerVC.showTime = self.showTime;
+    
     self.navigationController = navigationController;
     [self.navigationController pushViewController:datePickerVC animated:YES];
 }
@@ -37,16 +33,31 @@
 {
     self.field.value = date;
     
-    // update the cell to display new date
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    self.detailTextLabel.text = [dateFormatter stringFromDate:self.field.value];
-    
     NSLog(@"Date field %@ was edited, value changed to %@", self.field.identifier, self.field.value);
+    
+    // update the cell to display new date
+    [self renderValue];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kAlfrescoFormFieldChangedNotification object:self.field];
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)renderValue
+{
+    NSDate *date = self.field.value;
+    if (date != nil)
+    {
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        
+        if (self.showTime)
+        {
+            dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+        }
+        
+        self.detailTextLabel.text = [dateFormatter stringFromDate:date];
+    }
 }
 
 @end
