@@ -25,9 +25,11 @@
     processUsernameField.controlParameters = commonControlParameters;
     
     AlfrescoFormField *processPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"processpwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"Process Password"];
-    processPasswordField.secret = YES;
     processPasswordField.placeholderText = @"*****";
-    processPasswordField.controlParameters = commonControlParameters;
+    processPasswordField.controlParameters = @{kAlfrescoFormControlParameterAllowReset: @YES,
+                                               kAlfrescoFormControlParameterShowBorder: @YES,
+                                               kAlfrescoFormControlParameterSecret: @YES,
+                                               kAlfrescoFormControlParameterTextAlignment: @"right"};
     
     AlfrescoFormField *processEmailField = [[AlfrescoFormField alloc] initWithIdentifier:@"processemail" type:AlfrescoFormFieldTypeEmail value:nil label:@"Process Email"];
     processEmailField.placeholderText = @"bm@alfresco.com";
@@ -51,8 +53,11 @@
     
     AlfrescoFormField *mongoPasswordField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongopwd" type:AlfrescoFormFieldTypeString value:@"*****" label:@"mongo.test.password"];
     mongoPasswordField.placeholderText = @"*****";
-    mongoPasswordField.secret = YES;
     mongoPasswordField.controlParameters = commonControlParameters;
+    mongoPasswordField.controlParameters = @{kAlfrescoFormControlParameterAllowReset: @YES,
+                                             kAlfrescoFormControlParameterShowBorder: @YES,
+                                             kAlfrescoFormControlParameterSecret: @YES,
+                                             kAlfrescoFormControlParameterTextAlignment: @"right"};
     
     AlfrescoFormField *mongoDBField = [[AlfrescoFormField alloc] initWithIdentifier:@"mongodb" type:AlfrescoFormFieldTypeString value:nil label:@"mongo.test.database"];
     mongoDBField.placeholderText = @"bm20-data";

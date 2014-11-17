@@ -14,6 +14,7 @@ extern NSString * const kAlfrescoFormControlParameterAllowReset;
 extern NSString * const kAlfrescoFormControlParameterAllowDecimals;
 extern NSString * const kAlfrescoFormControlParameterShowBorder;
 extern NSString * const kAlfrescoFormControlParameterTextAlignment;
+extern NSString * const kAlfrescoFormControlParameterSecret;
 
 typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
 {
@@ -40,7 +41,6 @@ typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *placeholderText;
 @property (nonatomic, strong) id value;
-@property (nonatomic, assign, getter = isSecret) BOOL secret;
 @property (nonatomic, strong) NSDictionary *controlParameters;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier type:(AlfrescoFormFieldType)type value:(id)value label:(NSString *)label;

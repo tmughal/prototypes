@@ -67,14 +67,14 @@
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
 
-    if (self.field.secret)
-    {
-        self.textField.secureTextEntry = YES;
-    }
-
     if (self.field.placeholderText != nil)
     {
         self.textField.placeholder = self.field.placeholderText;
+    }
+    
+    if (self.field.controlParameters[kAlfrescoFormControlParameterSecret])
+    {
+        self.textField.secureTextEntry = YES;
     }
     
     if (self.field.controlParameters[kAlfrescoFormControlParameterAllowReset])

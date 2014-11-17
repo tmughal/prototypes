@@ -25,8 +25,8 @@
     
     AlfrescoFormField *passwordField = [[AlfrescoFormField alloc] initWithIdentifier:@"password" type:AlfrescoFormFieldTypeString value:nil label:@"Password"];
     [passwordField addConstraint:[AlfrescoFormMandatoryConstraint new]];
-    passwordField.secret = YES;
     passwordField.placeholderText = requiredString;
+    passwordField.controlParameters = @{kAlfrescoFormControlParameterSecret: @YES};
     
     AlfrescoFormField *hostField = [[AlfrescoFormField alloc] initWithIdentifier:@"host" type:AlfrescoFormFieldTypeString value:nil label:@"Host"];
     [hostField addConstraint:[AlfrescoFormMandatoryConstraint new]];
