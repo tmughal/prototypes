@@ -28,6 +28,7 @@
 		5872EDB21A14C0C60077FFC7 /* AdvancedFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872EDB11A14C0C60077FFC7 /* AdvancedFormViewController.m */; };
 		5872EDB51A19F1650077FFC7 /* AlfrescoFormInformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872EDB41A19F1650077FFC7 /* AlfrescoFormInformationCell.m */; };
 		5872EDB81A19F3C30077FFC7 /* AlfrescoFormPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872EDB71A19F3C30077FFC7 /* AlfrescoFormPickerCell.m */; };
+		5872EDBB1A1A3C2E0077FFC7 /* AlfrescoFormHiddenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872EDBA1A1A3C2E0077FFC7 /* AlfrescoFormHiddenCell.m */; };
 		5892CB1F19237BC900C7734A /* AlfrescoForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 5892CB1C19237BC900C7734A /* AlfrescoForm.m */; };
 		5892CB2C19237F3300C7734A /* AlfrescoFormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5892CB2B19237F3300C7734A /* AlfrescoFormCell.m */; };
 		5892CB331923842600C7734A /* AlfrescoFormBooleanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5892CB2E1923842600C7734A /* AlfrescoFormBooleanCell.m */; };
@@ -94,6 +95,8 @@
 		5872EDB41A19F1650077FFC7 /* AlfrescoFormInformationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfrescoFormInformationCell.m; sourceTree = "<group>"; };
 		5872EDB61A19F3C30077FFC7 /* AlfrescoFormPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfrescoFormPickerCell.h; sourceTree = "<group>"; };
 		5872EDB71A19F3C30077FFC7 /* AlfrescoFormPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfrescoFormPickerCell.m; sourceTree = "<group>"; };
+		5872EDB91A1A3C2E0077FFC7 /* AlfrescoFormHiddenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfrescoFormHiddenCell.h; sourceTree = "<group>"; };
+		5872EDBA1A1A3C2E0077FFC7 /* AlfrescoFormHiddenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfrescoFormHiddenCell.m; sourceTree = "<group>"; };
 		5892CB1B19237BC900C7734A /* AlfrescoForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfrescoForm.h; sourceTree = "<group>"; };
 		5892CB1C19237BC900C7734A /* AlfrescoForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlfrescoForm.m; sourceTree = "<group>"; };
 		5892CB2A19237F3300C7734A /* AlfrescoFormCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlfrescoFormCell.h; sourceTree = "<group>"; };
@@ -262,6 +265,8 @@
 				5892CB2B19237F3300C7734A /* AlfrescoFormCell.m */,
 				5892CB431923BFD800C7734A /* AlfrescoFormDateCell.h */,
 				5892CB441923BFD800C7734A /* AlfrescoFormDateCell.m */,
+				5872EDB91A1A3C2E0077FFC7 /* AlfrescoFormHiddenCell.h */,
+				5872EDBA1A1A3C2E0077FFC7 /* AlfrescoFormHiddenCell.m */,
 				5872EDB31A19F1650077FFC7 /* AlfrescoFormInformationCell.h */,
 				5872EDB41A19F1650077FFC7 /* AlfrescoFormInformationCell.m */,
 				5892CC22192E03F500C7734A /* AlfrescoFormListOfValuesCell.h */,
@@ -424,6 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5872EDBB1A1A3C2E0077FFC7 /* AlfrescoFormHiddenCell.m in Sources */,
 				5872EDB21A14C0C60077FFC7 /* AdvancedFormViewController.m in Sources */,
 				5872EDAF1A1381620077FFC7 /* ActivitiTaskFormViewController.m in Sources */,
 				5892CB351923842600C7734A /* AlfrescoFormTextCell.m in Sources */,

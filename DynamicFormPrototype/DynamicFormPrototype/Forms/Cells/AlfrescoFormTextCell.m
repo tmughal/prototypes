@@ -34,8 +34,8 @@
     self.textField.textAlignment = NSTextAlignmentLeft;
     if (self.field.controlParameters[kAlfrescoFormControlParameterTextAlignment])
     {
-        NSString *alignement = self.field.controlParameters[kAlfrescoFormControlParameterTextAlignment];
-        if ([alignement isEqualToString:@"right"])
+        NSString *alignment = self.field.controlParameters[kAlfrescoFormControlParameterTextAlignment];
+        if ([alignment isEqualToString:@"right"])
         {
             self.textField.textAlignment = NSTextAlignmentRight;
         }

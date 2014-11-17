@@ -14,6 +14,7 @@
 #import "AlfrescoFormInformationCell.h"
 #import "AlfrescoFormBooleanCell.h"
 #import "AlfrescoFormTextCell.h"
+#import "AlfrescoformHiddenCell.h"
 #import "AlfrescoFormListOfValuesConstraint.h"
 
 @interface AlfrescoFormViewController ()
@@ -184,6 +185,10 @@
                 // temporarily create an information cell for custom fields
                 formCell = [AlfrescoFormInformationCell new];
             }
+            else if (field.type == AlfrescoFormFieldTypeHidden)
+            {
+                formCell = [AlfrescoFormHiddenCell new];
+            }
             else
             {
                 // throw exeception if we can't handle the field
@@ -310,7 +315,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    AlfrescoFormCell *formCell = [self formCellForIndexPath:indexPath];
+    
+    if ([formCell isKindOfClass:[AlfrescoFormHiddenCell class]])
+    {
+        return 0;
+    }
+    else
+    {
+        return 44;
+    }
 }
 
 #pragma mark - Event handlers

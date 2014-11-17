@@ -22,8 +22,11 @@
     AlfrescoFormField *descriptionField = [[AlfrescoFormField alloc] initWithIdentifier:@"description" type:AlfrescoFormFieldTypeString value:nil label:@"Description"];
     descriptionField.placeholderText = @"Test Description";
     
+    // define a hidden field
+    AlfrescoFormField *hiddenField = [[AlfrescoFormField alloc] initWithIdentifier:@"hidden" type:AlfrescoFormFieldTypeHidden value:@"hidden value" label:nil];
+    
     AlfrescoFormFieldGroup *group = [[AlfrescoFormFieldGroup alloc] initWithIdentifier:@"default"
-                                                                                fields:@[nameField, descriptionField]
+                                                                                fields:@[nameField, hiddenField, descriptionField]
                                                                                  label:nil];
     
     return [[AlfrescoForm alloc] initWithGroups:@[group] title:@"Advanced" outcomes:@[@"Reject", @"Accept"]];
@@ -34,6 +37,11 @@
 - (void)formViewController:(AlfrescoFormViewController *)formViewController didEndEditingWithOutcome:(NSString *)outcome
 {
     NSLog(@"Finished editing form with outcome: %@", outcome);
+    
+    for (AlfrescoFormField *field in formViewController.form.fields)
+    {
+        NSLog(@"%@ = %@", field.identifier, field.value);
+    }
 }
 
 @end

@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, AlfrescoFormFieldType)
     AlfrescoFormFieldTypeDateTime,
     AlfrescoFormFieldTypeEmail,
     AlfrescoFormFieldTypeURL,
+    AlfrescoFormFieldTypeHidden,
     AlfrescoFormFieldTypeCustom,
     AlfrescoFormFieldTypeUnknown
 };
