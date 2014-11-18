@@ -29,6 +29,14 @@
 
 @implementation AlfrescoUnitOfWork
 
+- (instancetype)init
+{
+    NSException *exception = [NSException exceptionWithName:NSInternalInconsistencyException
+                                                     reason:@"Units of work must be created with a key"
+                                                   userInfo:nil];
+    @throw exception;
+}
+
 - (instancetype)initWithKey:(NSString *)key
 {
     self = [super init];
@@ -55,9 +63,16 @@
     // update progress state
     [self updateExecutingStateTo:YES];
     
+    // start the work
     NSLog(@"Work starting for key: %@", self.key);
-    //    [NSThread detachNewThreadSelector:@selector(startWork) toTarget:self withObject:nil];
     [self startWork];
+    
+    // ensure this thread stays alive until the unit of work is complete
+    do
+    {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    while (self.workCompleted == NO);
 }
 
 - (void)cancel

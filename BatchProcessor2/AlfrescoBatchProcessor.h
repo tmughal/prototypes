@@ -34,8 +34,8 @@ typedef void (^AlfrescoBatchProcessorCompletionBlock)(NSDictionary *results, NSD
 
 - (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock;
 
-- (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock
-                                options:(AlfrescoBatchProcessorOptions *)options;
+- (instancetype)initWithOptions:(AlfrescoBatchProcessorOptions *)options
+                completionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock;
 
 - (void)addUnitOfWork:(AlfrescoUnitOfWork *)work;
 

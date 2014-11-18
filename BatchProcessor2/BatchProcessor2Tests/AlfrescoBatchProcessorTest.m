@@ -23,12 +23,12 @@
 
 // Unit of work implementation for retrieving the HTML of a web site
 
-@interface RetrieveHomePageUnitOfWork : AlfrescoUnitOfWork
+@interface RetrieveHomePageWithSessionUnitOfWork : AlfrescoUnitOfWork
 @property (nonatomic, strong) NSURL *url;
 - (instancetype)initWithURL:(NSURL *)url;
 @end
 
-@implementation RetrieveHomePageUnitOfWork
+@implementation RetrieveHomePageWithSessionUnitOfWork
 
 - (instancetype)initWithURL:(NSURL *)url
 {
@@ -46,6 +46,7 @@
 {
     NSLog(@"Retrieving homepage for: %@", self.url);
     
+    // use NSURLSession to retrieve the home page
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:self.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error)
@@ -62,6 +63,101 @@
             [self completeWorkWithResult:responseString];
         }
     }] resume];
+}
+
+@end
+
+
+@interface RetrieveHomePageWithConnectionUnitOfWork : AlfrescoUnitOfWork <NSURLConnectionDataDelegate>
+@property (nonatomic, strong) NSURL *url;
+- (instancetype)initWithURL:(NSURL *)url;
+@property (nonatomic, strong) NSMutableData *responseData;
+@property (nonatomic, assign) NSInteger statusCode;
+@end
+
+@implementation RetrieveHomePageWithConnectionUnitOfWork
+
+- (instancetype)initWithURL:(NSURL *)url
+{
+    self = [super initWithKey:[url absoluteString]];
+    
+    if (self)
+    {
+        self.url = url;
+    }
+    
+    return self;
+}
+
+- (void)startWork
+{
+    NSLog(@"Retrieving homepage for: %@", self.url);
+
+    // use NSURLConnection to retrieve the home page
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:self.url
+                                                              cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                          timeoutInterval:60];
+    
+
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:NO];
+    [connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    [connection start];
+}
+
+#pragma URL delegate methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    if ([response isKindOfClass:[NSHTTPURLResponse class]])
+    {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        self.statusCode = httpResponse.statusCode;
+    }
+    else
+    {
+        self.statusCode = -1;
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    if (nil == data)
+    {
+        return;
+    }
+    
+    if (data.length == 0)
+    {
+        return;
+    }
+    
+    if (self.responseData)
+    {
+        [self.responseData appendData:data];
+    }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    if (self.statusCode == 200)
+    {
+        NSLog(@"Successfully retrieved homepage for: %@", self.url);
+        
+        NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
+        [self completeWorkWithResult:responseString];
+    }
+    else
+    {
+        NSLog(@"Failed to retrieve homepage for: %@", self.url);
+        
+        [self completeWorkWithResult:[NSError errorWithDomain:@"UnitTest" code:0 userInfo:nil]];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"Failed to retrieve homepage for: %@", self.url);
+    [self completeWorkWithResult:error];
 }
 
 @end
@@ -108,23 +204,24 @@
 
 @implementation AlfrescoBatchProcessorTest
 
-- (void)testHomepageRetrieval
+- (void)testHomepageRetrievalWithConnection
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Batch processor result expectation"];
     
     AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *results, NSDictionary *errors) {
+        NSLog(@"Homepage retrieval with connection batch processor completed");
         [expectation fulfill];
-        
+
         // check results
         XCTAssertNotNil(results, @"Expected the results dictionary to be returned");
         XCTAssertTrue(results.count == 3, @"Expected there to be 3 results");
         XCTAssertTrue(errors.count == 1, @"Expected there to be 1 error");
     }];
     
-    RetrieveHomePageUnitOfWork *google = [[RetrieveHomePageUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.google.com"]];
-    RetrieveHomePageUnitOfWork *apple = [[RetrieveHomePageUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
-    RetrieveHomePageUnitOfWork *microsoft = [[RetrieveHomePageUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.microsoft.com"]];
-    RetrieveHomePageUnitOfWork *localhost = [[RetrieveHomePageUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.localhost.com"]];
+    RetrieveHomePageWithConnectionUnitOfWork *google = [[RetrieveHomePageWithConnectionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.google.com"]];
+    RetrieveHomePageWithConnectionUnitOfWork *apple = [[RetrieveHomePageWithConnectionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    RetrieveHomePageWithConnectionUnitOfWork *microsoft = [[RetrieveHomePageWithConnectionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.microsoft.com"]];
+    RetrieveHomePageWithConnectionUnitOfWork *localhost = [[RetrieveHomePageWithConnectionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.localhost.com"]];
     
     // add the work
     [bp addUnitOfWork:google];
@@ -139,14 +236,50 @@
     XCTAssertTrue(bp.inProgress, @"Expected the inProgress flag to be true");
     
     // wait for the future result
-    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
 }
 
--(void)testCancellation
+- (void)testHomepageRetrievalWithSession
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Batch processor result expectation"];
     
     AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *results, NSDictionary *errors) {
+        NSLog(@"Homepage retrieval with session batch processor completed");
+        [expectation fulfill];
+        
+        // check results
+        XCTAssertNotNil(results, @"Expected the results dictionary to be returned");
+        XCTAssertTrue(results.count == 3, @"Expected there to be 3 results");
+        XCTAssertTrue(errors.count == 1, @"Expected there to be 1 error");
+    }];
+    
+    RetrieveHomePageWithSessionUnitOfWork *google = [[RetrieveHomePageWithSessionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.google.com"]];
+    RetrieveHomePageWithSessionUnitOfWork *apple = [[RetrieveHomePageWithSessionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.apple.com"]];
+    RetrieveHomePageWithSessionUnitOfWork *microsoft = [[RetrieveHomePageWithSessionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.microsoft.com"]];
+    RetrieveHomePageWithSessionUnitOfWork *localhost = [[RetrieveHomePageWithSessionUnitOfWork alloc] initWithURL:[NSURL URLWithString:@"http://www.localhost.com"]];
+    
+    // add the work
+    [bp addUnitOfWork:google];
+    [bp addUnitOfWork:apple];
+    [bp addUnitOfWork:microsoft];
+    [bp addUnitOfWork:localhost];
+    
+    // start the processor
+    [bp start];
+    
+    XCTAssertFalse(bp.cancelled, @"Expected the cancelled flag to be false");
+    XCTAssertTrue(bp.inProgress, @"Expected the inProgress flag to be true");
+    
+    // wait for the future result
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+}
+
+- (void)testCancellation
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Batch processor result expectation"];
+    
+    AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *results, NSDictionary *errors) {
+        NSLog(@"Cancellation batch processor completed");
         [expectation fulfill];
         
         // check results
@@ -177,7 +310,7 @@
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
 }
 
--(void)testNilCompletionBlock
+- (void)testNilCompletionBlock
 {
     AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:nil];
     
@@ -197,7 +330,7 @@
     XCTAssertFalse(bp.inProgress, @"Expected the inProgress flag to be false");
 }
 
--(void)testMaxConcurrentOption
+- (void)testMaxConcurrentOption
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Batch processor result expectation"];
     
@@ -208,7 +341,8 @@
     AlfrescoBatchProcessorOptions *options = [AlfrescoBatchProcessorOptions new];
     options.maxConcurrentUnitsOfWork = 1;
     
-    AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *results, NSDictionary *errors) {
+    AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithOptions:options completionBlock:^(NSDictionary *results, NSDictionary *errors) {
+        NSLog(@"Max concurrent option batch processor completed");
         [expectation fulfill];
         
         // check results
@@ -220,7 +354,7 @@
         double elapsedTime = endTime - startTime;
         XCTAssertTrue((elapsedTime > 16), @"Expected the time elapsed to be more than 16 seconds but it was: %f", elapsedTime);
         
-    } options:options];
+    }];
     
     SleepingUnitOfWork *sleepFor3Seconds = [[SleepingUnitOfWork alloc] initWithKey:@"3"];
     SleepingUnitOfWork *sleepFor5Seconds = [[SleepingUnitOfWork alloc] initWithKey:@"5"];
@@ -234,6 +368,56 @@
     
     // wait for the future result
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
+}
+
+- (void)testDuplicateUnitOfWork
+{
+    AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:nil];
+    
+    SleepingUnitOfWork *sleepFor1Second = [[SleepingUnitOfWork alloc] initWithKey:@"1"];
+    
+    // add the work
+    [bp addUnitOfWork:sleepFor1Second];
+
+    // add the same unit of work again
+    @try
+    {
+        [bp addUnitOfWork:sleepFor1Second];
+        
+        // fail the test if we get here
+        XCTFail(@"Expected an exception to be thrown when adding a duplicate unit of work");
+    }
+    @catch (NSException *exception)
+    {
+        // expecting the exception to be thrown
+    }
+}
+
+- (void)testAddUnitOfWorkAfterStart
+{
+    AlfrescoBatchProcessor *bp = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:nil];
+    
+    SleepingUnitOfWork *sleepFor3Seconds = [[SleepingUnitOfWork alloc] initWithKey:@"3"];
+    SleepingUnitOfWork *sleepFor5Seconds = [[SleepingUnitOfWork alloc] initWithKey:@"5"];
+    
+    // add the work
+    [bp addUnitOfWork:sleepFor5Seconds];
+    
+    // start the processor
+    [bp start];
+    
+    // add some more work
+    @try
+    {
+        [bp addUnitOfWork:sleepFor3Seconds];
+        
+        // fail the test if we get here
+        XCTFail(@"Expected an exception to be thrown when adding work after the processor has started");
+    }
+    @catch (NSException *exception)
+    {
+        // expecting the exception to be thrown
+    }
 }
 
 @end

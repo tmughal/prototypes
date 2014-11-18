@@ -30,7 +30,7 @@
 @property (nonatomic, copy) AlfrescoBatchProcessorCompletionBlock completionBlock;
 @property (nonatomic, strong) NSMutableDictionary *results;
 @property (nonatomic, strong) NSMutableDictionary *errors;
-@property (nonatomic, strong) NSMutableArray *unitsOfWork;
+@property (nonatomic, strong) NSMutableDictionary *unitsOfWork;
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) NSLock *mutexLock;
 @end
@@ -38,13 +38,7 @@
 
 @implementation AlfrescoBatchProcessor
 
-- (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock
-{
-    return [self initWithCompletionBlock:completionBlock options:nil];
-}
-
-- (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock
-                                options:(AlfrescoBatchProcessorOptions *)options
+- (instancetype)init
 {
     self = [super init];
     
@@ -52,16 +46,33 @@
     {
         self.inProgress = NO;
         self.cancelled = NO;
-        
-        self.completionBlock = completionBlock;
         self.results = [NSMutableDictionary dictionary];
         self.errors = [NSMutableDictionary dictionary];
-        self.unitsOfWork = [NSMutableArray array];
+        self.unitsOfWork = [NSMutableDictionary dictionary];
         self.mutexLock = [[NSLock alloc] init];
         
         // initialise internal queue
         self.queue = [[NSOperationQueue alloc] init];
         self.queue.name = @"Batch Processor Queue";
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock
+{
+    return [self initWithOptions:nil completionBlock:completionBlock];
+}
+
+- (instancetype)initWithOptions:(AlfrescoBatchProcessorOptions *)options
+                completionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock;
+{
+    self = [self init];
+    
+    if (self)
+    {
+        self.completionBlock = completionBlock;
+        
         if (options && options.maxConcurrentUnitsOfWork)
         {
             self.queue.maxConcurrentOperationCount = options.maxConcurrentUnitsOfWork;
@@ -73,21 +84,40 @@
 
 - (void)addUnitOfWork:(AlfrescoUnitOfWork *)work;
 {
+    // ensure the unit of work has a key
     assert(work.key);
+    
+    // ensure the unit of work is unique
+    if (self.unitsOfWork[work.key])
+    {
+        NSException *exception = [NSException exceptionWithName:NSInvalidArgumentException
+                                                         reason:[NSString stringWithFormat:@"A unit of work with the key %@ has already been added", work.key]
+                                                       userInfo:nil];
+        @throw exception;
+    }
+    
+    // units of work can not be added once the processor is in progress
+    if (self.inProgress)
+    {
+        NSException *exception = [NSException exceptionWithName:NSInternalInconsistencyException
+                                                         reason:@"Units of work can not be added after start has been called"
+                                                       userInfo:nil];
+        @throw exception;
+    }
     
     __weak AlfrescoUnitOfWork *weakUnitOfWork = work;
     work.completionBlock = ^void () {
         [self storeUnitOfWorkResult:weakUnitOfWork];
     };
     
-    [self.unitsOfWork addObject:work];
+    self.unitsOfWork[work.key] = work;
 }
 
 - (void)start
 {
     self.inProgress = YES;
     
-    for (AlfrescoUnitOfWork *unitOfWork in self.unitsOfWork)
+    for (AlfrescoUnitOfWork *unitOfWork in self.unitsOfWork.allValues)
     {
         [self.queue addOperation:unitOfWork];
     }
@@ -128,8 +158,8 @@
         NSLog(@"Stored result for key: %@", key);
     }
     
-    // remove the unit of work from the internal array
-    [self.unitsOfWork removeObject:work];
+    // remove the unit of work from the internal dictionary
+    [self.unitsOfWork removeObjectForKey:work.key];
     
     if (self.unitsOfWork.count == 0)
     {
