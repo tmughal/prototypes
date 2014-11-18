@@ -381,10 +381,10 @@
             // retrieve the cell for the current field
             AlfrescoFormCell *cell = self.cells[field.identifier];
             
-            NSLog(@"Evaluating %@ constraint for field %@", constraint.identifier, field.identifier);
-            
             if ([constraint evaluate:field.value])
             {
+                NSLog(@"%@ constraint for field %@ passed", constraint.identifier, field.identifier);
+                
                 if (!cell.selectable)
                 {
                     cell.accessoryView = nil;
@@ -392,6 +392,8 @@
             }
             else
             {
+                NSLog(@"%@ constraint for field %@ failed", constraint.identifier, field.identifier);
+                
                 isFormValid = NO;
                 
                 if (!cell.selectable)
@@ -401,6 +403,8 @@
                     cell.accessoryView = imageView;
                     cell.detailTextLabel.text = @"Validation error";
                 }
+                
+                break;
             }
         }
     }

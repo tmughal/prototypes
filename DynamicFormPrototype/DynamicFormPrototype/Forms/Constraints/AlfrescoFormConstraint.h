@@ -11,7 +11,7 @@
 @interface AlfrescoFormConstraint : NSObject
 
 @property (nonatomic, strong, readonly) NSString *identifier;
-@property (nonatomic, strong) NSString *summary;
+@property (nonatomic, strong) NSString *errorMessage;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier;
 

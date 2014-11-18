@@ -19,13 +19,13 @@ NSString * const kAlfrescoFormConstraintNumberRange = @"numberRange";
 
 - (instancetype)initWithMinimum:(NSNumber *)min maximum:(NSNumber *)max;
 {
-    self = [super initWithIdentifier:kAlfrescoFormConstraintNumberRange];
+    self = [self initWithIdentifier:kAlfrescoFormConstraintNumberRange];
     if (self)
     {
         self.minimum = min;
         self.maximum = max;
 
-        self.summary = [NSString stringWithFormat:@"The value of this field must be between %@ and %@", min, max];
+        self.errorMessage = [NSString stringWithFormat:@"The value must be between %@ and %@", min, max];
     }
     return self;
 }

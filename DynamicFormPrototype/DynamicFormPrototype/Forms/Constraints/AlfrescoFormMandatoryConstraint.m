@@ -17,7 +17,7 @@ NSString * const kAlfrescoFormConstraintMandatory = @"mandatory";
     self = [super initWithIdentifier:kAlfrescoFormConstraintMandatory];
     if (self)
     {
-        self.summary = @"This field is mandatory.";
+        self.errorMessage = @"A value is required";
     }
     return self;
 }

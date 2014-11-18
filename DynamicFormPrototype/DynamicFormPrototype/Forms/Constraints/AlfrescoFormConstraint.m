@@ -14,6 +14,14 @@
 
 @implementation AlfrescoFormConstraint
 
+- (instancetype)init
+{
+    NSException *exception = [NSException exceptionWithName:NSInternalInconsistencyException
+                                                     reason:@"Constraints must be created with an identifier"
+                                                   userInfo:nil];
+    @throw exception;
+}
+
 - (instancetype)initWithIdentifier:(NSString *)identifier
 {
     self = [super init];
