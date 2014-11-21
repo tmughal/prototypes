@@ -196,6 +196,44 @@
 
 @end
 
+@interface NoResultUnitOfWork : AlfrescoUnitOfWork
+@property (nonatomic, assign) BOOL completeWithNil;
+// setting completeWithNil will complete the unit of work with nil, otherwise call completeWorkWithNoResult
+- (instancetype)initWithSecondsDelay:(NSString *)seconds completeWithNil:(BOOL)completeWithNil;
+@end
+
+@implementation NoResultUnitOfWork
+
+- (instancetype)initWithSecondsDelay:(NSString *)seconds completeWithNil:(BOOL)completeWithNil
+{
+    self = [self initWithKey:seconds];
+    if (self)
+    {
+        self.completeWithNil = completeWithNil;
+    }
+    return self;
+}
+
+- (void)startWork
+{
+    NSLog(@"Sleeping for %@ seconds", self.key);
+    
+    [NSThread sleepForTimeInterval:[self.key doubleValue]];
+    
+    NSLog(@"Finished sleeping for %@ seconds", self.key);
+    
+    if (self.completeWithNil)
+    {
+        [self completeWorkWithResult:nil];
+    }
+    else
+    {
+        [self completeWorkWithNoResult];
+    }
+}
+
+@end
+
 // Tests
 
 @interface AlfrescoBatchProcessorTest : XCTestCase
@@ -418,6 +456,56 @@
     {
         // expecting the exception to be thrown
     }
+}
+
+- (void)testUnitOfWorkWithNoResultMethod
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Batch processor result expectation"];
+    
+    NSString *secondString = @"2";
+    
+    AlfrescoBatchProcessor *batchProcessor = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *results, NSDictionary *errors) {
+        [expectation fulfill];
+        
+        XCTAssertNil(errors, @"Errors dictionary should be nil");
+        XCTAssertTrue(errors.count == 0, @"Errors dictionary should not contain any errors");
+        XCTAssertTrue(results.count > 0, @"There should be more than 0 results");
+        id firstResultObject = results[secondString];
+        XCTAssertTrue([firstResultObject isKindOfClass:[AlfrescoUnitOfWorkNoResult class]], @"The result should be of class type %@", NSStringFromClass([AlfrescoUnitOfWorkNoResult class]));
+    }];
+    
+    NoResultUnitOfWork *noResultUnitOfWork = [[NoResultUnitOfWork alloc] initWithSecondsDelay:secondString completeWithNil:NO];
+    
+    [batchProcessor addUnitOfWork:noResultUnitOfWork];
+    
+    [batchProcessor start];
+    
+    [self waitForExpectationsWithTimeout:30.0f handler:nil];
+}
+
+- (void)testUnitOfWorkWithNoResultNil
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Batch processor result expectation"];
+    
+    NSString *secondString = @"5";
+    
+    AlfrescoBatchProcessor *batchProcessor = [[AlfrescoBatchProcessor alloc] initWithCompletionBlock:^(NSDictionary *results, NSDictionary *errors) {
+        [expectation fulfill];
+        
+        XCTAssertNil(errors, @"Errors dictionary should be nil");
+        XCTAssertTrue(errors.count == 0, @"Errors dictionary should not contain any errors");
+        XCTAssertTrue(results.count > 0, @"There should be more than 0 results");
+        id firstResultObject = results[secondString];
+        XCTAssertTrue([firstResultObject isKindOfClass:[AlfrescoUnitOfWorkNoResult class]], @"The result should be of class type %@", NSStringFromClass([AlfrescoUnitOfWorkNoResult class]));
+    }];
+    
+    NoResultUnitOfWork *noResultUnitOfWork = [[NoResultUnitOfWork alloc] initWithSecondsDelay:secondString completeWithNil:YES];
+    
+    [batchProcessor addUnitOfWork:noResultUnitOfWork];
+    
+    [batchProcessor start];
+    
+    [self waitForExpectationsWithTimeout:30.0f handler:nil];
 }
 
 @end

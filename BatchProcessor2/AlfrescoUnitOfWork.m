@@ -20,6 +20,9 @@
 
 #import "AlfrescoUnitOfWork.h"
 
+@implementation AlfrescoUnitOfWorkNoResult
+@end
+
 @interface AlfrescoUnitOfWork ()
 @property (nonatomic, strong, readwrite) NSString *key;
 @property (nonatomic, strong, readwrite) id result;
@@ -106,6 +109,11 @@
     @throw ([NSException exceptionWithName:@"Missing method implementation"
                                     reason:@"AlfrescoUnitOfWork subclass must override the startWork method"
                                   userInfo:nil]);
+}
+
+- (void)completeWorkWithNoResult
+{
+    [self completeWorkWithResult:nil];
 }
 
 - (void)completeWorkWithResult:(id)result

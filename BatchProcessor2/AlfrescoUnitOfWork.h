@@ -20,6 +20,9 @@
 
 #import <Foundation/Foundation.h>
 
+@interface AlfrescoUnitOfWorkNoResult : NSObject
+@end
+
 @interface AlfrescoUnitOfWork : NSOperation
 
 @property (nonatomic, strong, readonly) NSString *key;
@@ -28,6 +31,8 @@
 - (instancetype)initWithKey:(NSString *)key;
 
 - (void)startWork;
+
+- (void)completeWorkWithNoResult;
 
 - (void)completeWorkWithResult:(id)result;
 

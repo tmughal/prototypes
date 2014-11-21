@@ -153,6 +153,11 @@
     }
     else
     {
+        if (!result)
+        {
+            result = [AlfrescoUnitOfWorkNoResult new];
+        }
+        
         self.results[key] = result;
         
         NSLog(@"Stored result for key: %@", key);
@@ -171,7 +176,7 @@
         {
             NSLog(@"Calling completion block on main thread");
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.completionBlock(self.results, self.errors);
+                self.completionBlock((self.results.count > 0) ? self.results : nil, (self.errors.count > 0) ? self.errors : nil);
             });
         }
     }
