@@ -31,6 +31,7 @@ typedef void (^AlfrescoBatchProcessorCompletionBlock)(NSDictionary *results, NSD
 
 @property (nonatomic, assign, readonly) BOOL inProgress;
 @property (nonatomic, assign, readonly) BOOL cancelled;
+@property (nonatomic, strong, readonly) NSArray *queuedUnitOfWorkKeys;
 
 - (instancetype)initWithCompletionBlock:(AlfrescoBatchProcessorCompletionBlock)completionBlock;
 

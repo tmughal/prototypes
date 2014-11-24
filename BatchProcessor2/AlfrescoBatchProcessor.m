@@ -82,6 +82,15 @@
     return self;
 }
 
+#pragma mark - Getters and Setters
+
+- (NSArray *)queuedUnitOfWorkKeys
+{
+    return self.unitsOfWork.allKeys;
+}
+
+#pragma mark - Public Methods
+
 - (void)addUnitOfWork:(AlfrescoUnitOfWork *)work;
 {
     // ensure the unit of work has a key
